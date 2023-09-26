@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WarehousePage</class>
+ <widget class="QMainWindow" name="WarehousePage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1196</width>
+    <height>854</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item alignment="Qt::AlignTop">
+     <widget class="QFrame" name="Test_Properties">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="39">
+        <widget class="QLabel" name="label_18">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
+         <property name="text">
+          <string>تاریخ ثبت</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="36">
+        <widget class="QLineEdit" name="partSupplier">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+border: 1px solid black;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="40">
+        <widget class="QLineEdit" name="partSerial">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+border: 1px solid black;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="41">
+        <widget class="QLabel" name="label_19">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
+         <property name="text">
+          <string>سریال</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="36">
+        <widget class="QPushButton" name="fetchButton">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="text">
+          <string>ثبت قطعه</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="43">
+        <widget class="QLabel" name="label_7">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>شرکت سازنده</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="38">
+        <widget class="QLineEdit" name="orderId">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+border: 1px solid black;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="38">
+        <widget class="QLineEdit" name="date">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+border: 1px solid black;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="43">
+        <widget class="QLabel" name="label_17">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
+         <property name="text">
+          <string>دسته بندی قطعه</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="37">
+        <widget class="QLabel" name="label_14">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
+         <property name="text">
+          <string>سوپلایر</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="40">
+        <widget class="QLineEdit" name="partCountry">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+border: 1px solid black;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="39">
+        <widget class="QLabel" name="label_15">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
+         <property name="text">
+          <string>شماره سفارش</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="41">
+        <widget class="QLabel" name="label_6">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>کشور سازنده</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="42">
+        <widget class="QLineEdit" name="partCompany">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+border: 1px solid black;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="42">
+        <widget class="QLineEdit" name="partSerial_2">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+border: 1px solid black;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>450</x>
+         <y>180</y>
+         <width>321</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;لیست موجودی قطعات&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

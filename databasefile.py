@@ -1,34 +1,6 @@
 import mysql.connector
 
 
-# connection = mysql.connector.connect(
-#     host="localhost",
-#     user="yekta",
-#     password="Yekta-5310",
-#     database="qc"
-# )
-
-
-
-# def retrieve_standards():
-   
-
-#     cursor = connection.cursor()
-
-
-#     query = "SELECT standardname FROM standard"
-#     cursor.execute(query)
-#     items = cursor.fetchall()
-
-#     cursor.close()
-#     connection.close()
-
-#     if items:
-#         return items
-#     else:
-#         return None
-    
-
 
 
 

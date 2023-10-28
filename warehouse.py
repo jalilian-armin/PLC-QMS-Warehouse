@@ -47,18 +47,22 @@ class WarehousePage(QMainWindow, Ui_WarehousePage):
 
 
 
+    def database_info(self):
+        return mysql.connector.connect(
+            host="85.185.84.197",
+            user="yekta",
+            password="Yekta-5310",
+            database="qc2"
+        )
+
+
+
 
     def addWarehouse(self):
 
         #Establish a connection to the MySQL database
         
-        db_connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-            
-        )
+        db_connection = self.database_info()
 
 
 
@@ -87,12 +91,8 @@ class WarehousePage(QMainWindow, Ui_WarehousePage):
 
     def load_data(self):
         # Connect to the MySQL database
-        connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        connection = self.database_info()
+
         cursor = connection.cursor()
 
         # Fetch data from the database
@@ -116,12 +116,8 @@ class WarehousePage(QMainWindow, Ui_WarehousePage):
         connection.close()
 
     def delete_record(self, connection, record_id):
-        connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        connection = self.database_info()
+
         cursor = connection.cursor()
 
         # Delete the record with the specified ID
@@ -141,12 +137,8 @@ class WarehousePage(QMainWindow, Ui_WarehousePage):
 
     def load_datadaily(self):
         # Connect to the MySQL database
-        connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        connection =self.database_info()
+
         cursor = connection.cursor()
 
         # Fetch data from the database
@@ -170,12 +162,8 @@ class WarehousePage(QMainWindow, Ui_WarehousePage):
         connection.close()
 
     def delete_recorddaily(self, connection, record_id):
-        connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        connection = self.database_info()
+
         cursor = connection.cursor()
 
         # Delete the record with the specified ID
@@ -196,12 +184,8 @@ class WarehousePage(QMainWindow, Ui_WarehousePage):
              
     def on_text_changed(self):
         serial = self.exitPartSerial.text().strip()  # Get rid of any leading/trailing spaces
-        db_connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        db_connection = self.database_info()
+
         cursor = db_connection.cursor()
         query = "SELECT category FROM warehouse WHERE serial = %s"
         
@@ -217,12 +201,7 @@ class WarehousePage(QMainWindow, Ui_WarehousePage):
     def move_record(self):
         try:
             # Connect to the MySQL database
-            db_connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+            db_connection = self.database_info()
 
             # Create a cursor
             cursor = db_connection.cursor()

@@ -4,50 +4,6 @@
 # import main
 from classes.Auth import Auth
 
-# class loginWindow(Base, Form):
-#     def __init__(self, parent=None):
-#         super(self.__class__, self).__init__(parent)
-#         self.setupUi(self)
-        
-#         # Setting Focus on username Input
-#         self.usernameInput.setFocus()
-
-#         # Login Button Pressed Event
-#         self.loginButton.clicked.connect(self.authenticate)
-        
-#         # Enter button press on Line Edit event
-#         self.passwordInput.returnPressed.connect(self.loginButton.click)
-#         self.usernameInput.returnPressed.connect(self.loginButton.click)
-        
-#         # Enter Button pressed on Login button
-#         self.loginButton.setAutoDefault(True)
-        
-#         # Make password invisible
-#         self.passwordInput.setEchoMode(QtWidgets.QLineEdit.Password)
-#         self.display_msg = QtWidgets.QMessageBox()
-#         self.display_msg.setIcon(QtWidgets.QMessageBox.Information)
-
-#     def authenticate(self):
-#         self.username = self.usernameInput.text()
-#         self.password = self.passwordInput.text()
-#         usern = self.username
-#         lis = ()
-#         db = mysql.connector.connect(
-#         host="85.185.84.197",
-#         user="yekta",
-#         password="Yekta-5310",
-#         database="qc2"
-#     )
-#         cursor = db.cursor()
-#         cursor.execute("SELECT user_id  FROM user_info where user_name = %s  and user_pass =%s",(self.username,self.password))
-#         data = cursor.fetchall()
-#         if(data == lis):
-#             self.display_msg.setWindowTitle('Error')
-#             self.display_msg.setText('Incorrect Username or Password')
-#             self.display_msg.show()
-#         else:
-#             self.homepageopen()
-#             self.homepage.fetchUsername(self.username)
 
 
 

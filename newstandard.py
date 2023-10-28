@@ -796,7 +796,13 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         self.canvas11.draw()
 
 
-        
+    def database_info(self):
+        return mysql.connector.connect(
+            host="85.185.84.197",
+            user="yekta",
+            password="Yekta-5310",
+            database="qc2"
+        )
 
 
 
@@ -804,13 +810,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
         #Establish a connection to the MySQL database
         
-        db_connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-            
-        )
+        db_connection = self.database_info()
 
 
 
@@ -1005,13 +1005,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
         #Establish a connection to the MySQL database
         
-        db_connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-            
-        )
+        db_connection = self.database_info()
 
 
 
@@ -1108,13 +1102,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
     #     #Establish a connection to the MySQL database
         
-    #     db_connection = mysql.connector.connect(
-    #         host="85.185.84.197",
-    #         user="yekta",
-    #         password="Yekta-5310",
-    #         database="qc2"
-            
-    #     )
+    #     db_connection = self.database_info()
 
 
 
@@ -1153,12 +1141,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
     def delete_standard(self):
         # Establish a connection to the MySQL server
-        connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        connection = self.database_info()
 
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor()

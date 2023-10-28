@@ -36,6 +36,16 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
         self.assembleBtn.clicked.connect(self.assemble_package)
         self.refreshPackageDB.clicked.connect(self.load_data)
 
+
+    def database_info(self):
+        return mysql.connector.connect(
+            host="85.185.84.197",
+            user="yekta",
+            password="Yekta-5310",
+            database="qc2"
+        )
+
+
     def on_text_changed(self):
         # Get the sender object that triggered the signal
         sender = self.sender()
@@ -44,12 +54,7 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
         serial = sender.text().strip()
 
         # Establish the database connection
-        db_connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        db_connection = self.database_info()
 
         # Prepare and execute the database query
         cursor = db_connection.cursor()
@@ -102,12 +107,8 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
 
     def load_data(self):
         # Connect to the MySQL database
-        connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        connection = self.database_info()
+
         cursor = connection.cursor()
 
         # Fetch data from the database
@@ -131,12 +132,8 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
         connection.close()
 
     def delete_record(self, connection, record_id):
-        connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+        connection = self.database_info()
+
         cursor = connection.cursor()
 
         # Delete the record with the specified ID
@@ -187,13 +184,7 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
 
         #Establish a connection to the MySQL database
         
-        db_connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-            
-        )
+        db_connection = self.database_info()
 
 
 
@@ -225,12 +216,7 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
     def move_record(self):
         try:
             # Connect to the MySQL database
-            db_connection = mysql.connector.connect(
-            host="85.185.84.197",
-            user="yekta",
-            password="Yekta-5310",
-            database="qc2"
-        )
+            db_connection = self.database_info()
 
             # Create a cursor
             cursor = db_connection.cursor()

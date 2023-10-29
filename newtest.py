@@ -207,8 +207,8 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         self.fetchButton.clicked.connect(self.start_fetching)
         self.stopButton.clicked.connect(self.stop_fetching)
-        # self.saveButton.clicked.connect(self.insert_test)
-        self.printButton.clicked.connect(self.print_label)
+        self.saveButton.clicked.connect(self.insert_test)
+        # self.printButton.clicked.connect(self.print_label)
 
 
         # Add a flag to indicate whether the fetching should be stopped
@@ -268,19 +268,26 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         print(self.min_value_list)
 
-        self.tableCompare.setItem(1, 0, QTableWidgetItem(f"{self.min_value_list[0]:.2f}-{self.max_value_list[0]:.2f}°C"))
-        self.tableCompare.setItem(1, 1, QTableWidgetItem(f"{self.min_value_list[1]:.2f}-{self.max_value_list[1]:.2f}°C"))
-        self.tableCompare.setItem(1, 2, QTableWidgetItem(f"{self.min_value_list[2]:.2f}-{self.max_value_list[2]:.2f}°C"))
-        self.tableCompare.setItem(1, 3, QTableWidgetItem(f"{self.min_value_list[3]:.2f}-{self.max_value_list[3]:.2f}°C"))
-        self.tableCompare.setItem(1, 4, QTableWidgetItem(f"{self.min_value_list[4]:.2f}-{self.max_value_list[4]:.2f}°C"))
-        self.tableCompare.setItem(1, 5, QTableWidgetItem(f"{self.min_value_list[5]:.2f}-{self.max_value_list[5]:.2f}°C"))
-        # self.tableCompare.setItem(0, 6, QTableWidgetItem(f"{self.min_value_list[]:.2f}-{self.max_value_list[]:.2f}°C"))
-        # self.tableCompare.setItem(0, 7, QTableWidgetItem(f"{self.min_value_list[]:.2f}-{self.max_value_list[]:.2f}°C"))
-        self.tableCompare.setItem(1, 6, QTableWidgetItem(f"{self.min_value_list[6]:.2f}-{self.max_value_list[6]:.2f}psi"))
-        self.tableCompare.setItem(1, 7, QTableWidgetItem(f"{self.min_value_list[7]:.2f}-{self.max_value_list[7]:.2f}psi"))
-        self.tableCompare.setItem(1, 8, QTableWidgetItem(f"{self.min_value_list[8]:.2f}-{self.max_value_list[8]:.2f}A"))
-        self.tableCompare.setItem(1, 9, QTableWidgetItem(f"{self.min_value_list[9]:.2f}-{self.max_value_list[9]:.2f}A"))
-        self.tableCompare.setItem(1, 10, QTableWidgetItem(f"{self.min_value_list[10]:.2f}-{self.max_value_list[10]:.2f}V"))
+        # self.tableCompare.setItem(1, 0, QTableWidgetItem(f"{self.min_value_list[0]:.2f}-{self.max_value_list[0]:.2f}°C"))
+        # self.tableCompare.setItem(1, 1, QTableWidgetItem(f"{self.min_value_list[1]:.2f}-{self.max_value_list[1]:.2f}°C"))
+        # self.tableCompare.setItem(1, 2, QTableWidgetItem(f"{self.min_value_list[2]:.2f}-{self.max_value_list[2]:.2f}°C"))
+        # self.tableCompare.setItem(1, 3, QTableWidgetItem(f"{self.min_value_list[3]:.2f}-{self.max_value_list[3]:.2f}°C"))
+        # self.tableCompare.setItem(1, 4, QTableWidgetItem(f"{self.min_value_list[4]:.2f}-{self.max_value_list[4]:.2f}°C"))
+        # self.tableCompare.setItem(1, 5, QTableWidgetItem(f"{self.min_value_list[5]:.2f}-{self.max_value_list[5]:.2f}°C"))
+        # # self.tableCompare.setItem(0, 6, QTableWidgetItem(f"{self.min_value_list[]:.2f}-{self.max_value_list[]:.2f}°C"))
+        # # self.tableCompare.setItem(0, 7, QTableWidgetItem(f"{self.min_value_list[]:.2f}-{self.max_value_list[]:.2f}°C"))
+        # self.tableCompare.setItem(1, 6, QTableWidgetItem(f"{self.min_value_list[6]:.2f}-{self.max_value_list[6]:.2f}psi"))
+        # self.tableCompare.setItem(1, 7, QTableWidgetItem(f"{self.min_value_list[7]:.2f}-{self.max_value_list[7]:.2f}psi"))
+        # self.tableCompare.setItem(1, 8, QTableWidgetItem(f"{self.min_value_list[8]:.2f}-{self.max_value_list[8]:.2f}A"))
+        # self.tableCompare.setItem(1, 9, QTableWidgetItem(f"{self.min_value_list[9]:.2f}-{self.max_value_list[9]:.2f}A"))
+        # self.tableCompare.setItem(1, 10, QTableWidgetItem(f"{self.min_value_list[10]:.2f}-{self.max_value_list[10]:.2f}V"))
+
+        units = ['°C'] * 6 + ['psi', 'psi', 'A', 'A', 'V']
+        self.combined_values = [f"{self.min_value_list[i]:.2f}-{self.max_value_list[i]:.2f}{units[i]}" for i in range(11)]
+
+        for i in range(11):
+            self.tableCompare.setItem(1, i, QTableWidgetItem(self.combined_values[i]))
+
         
         
 
@@ -696,6 +703,14 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             #call the compare function
             self.compare()
 
+
+            # Prepare the data as a list of tuples
+            self.data = [
+                    (motorid, self.comboStandard, self.standard_list[4], durationtemp_input, intervaltemp_input, durationamperage_input, amperageiterations, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
+                    average_temperature6, average_pressure_min, average_pressure_max, average_ampstart, average_amptotal, average_volt, average_temperature7, average_temperature8, self.combined_values, self.result)
+                    #for i in range(len(average_temperature1))
+                ]
+
             self.saveButton.setEnabled(True)
 
         self.stopButton.setEnabled(False)
@@ -807,71 +822,113 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         all_correct = all(self.min_value_list[i] <= self.value_list[i] <= self.max_value_list[i] for i in range(11))
         if all_correct:
 
-            self.printButton.setEnabled(True)
+            self.result = True
 
 
 
-    def print_label(self):
-        # def barcode_generate(self):
-        # # Get the current Jalali date
-        current_jdate = jdatetime.now()
+    # def print_label(self):
+    #     # def barcode_generate(self):
+    #     # # Get the current Jalali date
+    #     current_jdate = jdatetime.now()
 
-        # Format the Jalali date as "yyyymmdd"
-        jalali_date_str = current_jdate.strftime('%Y%m%d')
+    #     # Format the Jalali date as "yyyymmdd"
+    #     jalali_date_str = current_jdate.strftime('%Y%m%d')
 
-        # Generate a random 10-digit number
-        random_number = random.randint(0, 55555)
+    #     # Generate a random 10-digit number
+    #     random_number = random.randint(0, 55555)
 
-        # Combine the Jalali date and random number to create a 13-digit number
-        thirteen_digit_number = int(jalali_date_str + str(random_number).zfill(5))
-        self.testResult.setText(str(thirteen_digit_number))
-        # Generate EAN-13 barcode
-        # ean = EAN13(thirteen_digit_number, writer=barcode.writer.ImageWriter())
+    #     # Combine the Jalali date and random number to create a 13-digit number
+    #     thirteen_digit_number = int(jalali_date_str + str(random_number).zfill(5))
+    #     self.testResult.setText(str(thirteen_digit_number))
+    #     # Generate EAN-13 barcode
+    #     # ean = EAN13(thirteen_digit_number, writer=barcode.writer.ImageWriter())
 
-        # # Convert barcode to PIL image
-        # barcode_image = ean.render()
-        # barcode_image.show("Samsung SCX-4x21 Series (USB001)")
-        l = zpl.Label(25,60)
-        height = 0
-        l.origin(30,2)
-        l.write_text("Hyundai AC", char_height=3, char_width=3, line_width=30, justification='C')
-        l.endorigin()
+    #     # # Convert barcode to PIL image
+    #     # barcode_image = ean.render()
+    #     # barcode_image.show("Samsung SCX-4x21 Series (USB001)")
+    #     l = zpl.Label(25,60)
+    #     height = 0
+    #     l.origin(30,2)
+    #     l.write_text("Hyundai AC", char_height=3, char_width=3, line_width=30, justification='C')
+    #     l.endorigin()
 
-        l.origin(30,10)
-        l.write_text("1402/08/07 12:40", char_height=3, char_width=3, line_width=30, justification='C')
-        l.endorigin()
+    #     l.origin(30,10)
+    #     l.write_text("1402/08/07 12:40", char_height=3, char_width=3, line_width=30, justification='C')
+    #     l.endorigin()
 
-        l.origin(30,20)
-        l.write_text("QC PASSED", char_height=3, char_width=3, line_width=30, justification='C')
-        l.endorigin()
+    #     l.origin(30,20)
+    #     l.write_text("QC PASSED", char_height=3, char_width=3, line_width=30, justification='C')
+    #     l.endorigin()
 
-        # height += 13
-        # image_width = 5
-        # l.origin((l.width-image_width)/2, height)
-        # image_height = l.write_graphic(
-        #     Image.open(os.path.join(os.path.dirname(zpl.__file__), 'trollface-large.png')),
-        #     image_width)
-        # l.endorigin()
+    #     # height += 13
+    #     # image_width = 5
+    #     # l.origin((l.width-image_width)/2, height)
+    #     # image_height = l.write_graphic(
+    #     #     Image.open(os.path.join(os.path.dirname(zpl.__file__), 'trollface-large.png')),
+    #     #     image_width)
+    #     # l.endorigin()
 
-        # height += image_height + 5
-        l.origin(5, 2)
-        l.barcode('2', thirteen_digit_number, height=150, check_digit='N')
-        l.endorigin()
-        print(str(self.tempbarcode))
+    #     # height += image_height + 5
+    #     l.origin(5, 2)
+    #     l.barcode('2', thirteen_digit_number, height=150, check_digit='N')
+    #     l.endorigin()
+    #     print(str(self.tempbarcode))
 
-        print(l.dumpZPL())
-        l.preview()
-        label = l.dumpZPL()
-
-
-        printer_name = "Adobe PDF"
-
-        # Create a Zebra object
-        z = Zebra(printer_name)
-        z.output(label)
-        # print(z.getqueues())
+    #     print(l.dumpZPL())
+    #     l.preview()
+    #     label = l.dumpZPL()
 
 
+    #     printer_name = "Adobe PDF"
+
+    #     # Create a Zebra object
+    #     z = Zebra(printer_name)
+    #     z.output(label)
+    #     # print(z.getqueues())
+
+
+
+    def database_info(self):
+        return mysql.connector.connect(
+            host="192.168.100.201",
+            user="yekta",
+            password="Yekta-5310",
+            database="qc2"
+        )
+
+    def insert_test(self):
+
+        #Establish a connection to the MySQL database
+        
+        db_connection = self.database_info()
+
+
+
+
+        # Create a cursor object to execute SQL queries
+        cursor = db_connection.cursor()
+
+
+        # Define the SQL query to insert data into the table
+        insert_query = "INSERT INTO test (serial, standardname, gas, testduration, intervaltemp, durationamperage, intervalamperage, testtime, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageampstart, averageamptotal, averagevolt, averagetemperature7, averagetemperature8, standardrange, result) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+
+        # # Prepare the data as a list of tuples
+        # self.data = [
+        #     (standardname, durationtemp_input, intervaltemp_input, durationamperage_input, intervalamperage_input, tolerance_input, sensor_stat1, sensor_stat2, sensor_stat3, sensor_stat4, sensor_stat5, sensor_stat6, sensor_stat7, sensor_stat8, amp_stat, volt_stat, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
+        #     average_temperature6, average_temperature7, average_temperature8, average_pressure_max, average_pressure_min)
+        #     #for i in range(len(average_temperature1))
+        # ]
+
+        # Execute the SQL query to insert the data into the table
+        cursor.executemany(insert_query, self.data)
+
+        # Commit the changes to the database
+        db_connection.commit()
+
+        # Close the cursor and database connection
+        cursor.close()
+        db_connection.close()
+        self.saveButton.setEnabled(False)
 
 
         

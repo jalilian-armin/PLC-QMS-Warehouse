@@ -13,6 +13,8 @@ from barcode import EAN13
 from PIL import Image
 from ui_newtest import Ui_NewTestPage
 from jdatetime import datetime as jdatetime
+import zpl
+from zebra import Zebra
 
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -206,6 +208,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         self.fetchButton.clicked.connect(self.start_fetching)
         self.stopButton.clicked.connect(self.stop_fetching)
         # self.saveButton.clicked.connect(self.insert_test)
+        self.printButton.clicked.connect(self.print_label)
 
 
         # Add a flag to indicate whether the fetching should be stopped
@@ -803,28 +806,70 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         all_correct = all(self.min_value_list[i] <= self.value_list[i] <= self.max_value_list[i] for i in range(11))
         if all_correct:
-            # def barcode_generate(self):
-            # # Get the current Jalali date
-            current_jdate = jdatetime.now()
 
-            # Format the Jalali date as "yyyymmdd"
-            jalali_date_str = current_jdate.strftime('%Y%m%d')
-
-            # Generate a random 10-digit number
-            random_number = random.randint(0, 55555)
-
-            # Combine the Jalali date and random number to create a 13-digit number
-            thirteen_digit_number = int(jalali_date_str + str(random_number).zfill(5))
+            self.printButton.setEnabled(True)
 
 
-            
-            self.testResult.setText(str(thirteen_digit_number))
-            # Generate EAN-13 barcode
-            ean = EAN13(thirteen_digit_number, writer=barcode.writer.ImageWriter())
 
-            # Convert barcode to PIL image
-            barcode_image = ean.render()
-            barcode_image.show("Samsung SCX-4x21 Series (USB001)")
+    def print_label(self):
+        # def barcode_generate(self):
+        # # Get the current Jalali date
+        current_jdate = jdatetime.now()
+
+        # Format the Jalali date as "yyyymmdd"
+        jalali_date_str = current_jdate.strftime('%Y%m%d')
+
+        # Generate a random 10-digit number
+        random_number = random.randint(0, 55555)
+
+        # Combine the Jalali date and random number to create a 13-digit number
+        thirteen_digit_number = int(jalali_date_str + str(random_number).zfill(5))
+        self.testResult.setText(str(thirteen_digit_number))
+        # Generate EAN-13 barcode
+        # ean = EAN13(thirteen_digit_number, writer=barcode.writer.ImageWriter())
+
+        # # Convert barcode to PIL image
+        # barcode_image = ean.render()
+        # barcode_image.show("Samsung SCX-4x21 Series (USB001)")
+        l = zpl.Label(25,60)
+        height = 0
+        l.origin(30,2)
+        l.write_text("Hyundai AC", char_height=3, char_width=3, line_width=30, justification='C')
+        l.endorigin()
+
+        l.origin(30,10)
+        l.write_text("1402/08/07 12:40", char_height=3, char_width=3, line_width=30, justification='C')
+        l.endorigin()
+
+        l.origin(30,20)
+        l.write_text("QC PASSED", char_height=3, char_width=3, line_width=30, justification='C')
+        l.endorigin()
+
+        # height += 13
+        # image_width = 5
+        # l.origin((l.width-image_width)/2, height)
+        # image_height = l.write_graphic(
+        #     Image.open(os.path.join(os.path.dirname(zpl.__file__), 'trollface-large.png')),
+        #     image_width)
+        # l.endorigin()
+
+        # height += image_height + 5
+        l.origin(5, 2)
+        l.barcode('2', thirteen_digit_number, height=150, check_digit='N')
+        l.endorigin()
+        print(str(self.tempbarcode))
+
+        print(l.dumpZPL())
+        l.preview()
+        label = l.dumpZPL()
+
+
+        printer_name = "Adobe PDF"
+
+        # Create a Zebra object
+        z = Zebra(printer_name)
+        z.output(label)
+        # print(z.getqueues())
 
 
 

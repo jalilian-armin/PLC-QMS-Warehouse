@@ -6,6 +6,9 @@ from PyQt5.QtSql import QSqlTableModel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 import mysql.connector
 
+import zpl
+from zebra import Zebra
+
 import random
 from jdatetime import datetime as jdatetime
 
@@ -164,7 +167,7 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
 
 
     def assemble_package(self):
-        tempbarcode = self.barcode_generate()
+        self.tempbarcode = self.barcode_generate()
         operator = "101"
         name = self.packageName.text()
         currentdate = str(jdatetime.now())
@@ -179,7 +182,7 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
         part9=self.packageSerial9.text()
         part10=self.packageSerial10.text()
 
-        data =[(name, tempbarcode, part1,part2,part3,part4,part5,part6,part7,part8,part9,part10,operator,currentdate)]
+        data =[(name, self.tempbarcode, part1,part2,part3,part4,part5,part6,part7,part8,part9,part10,operator,currentdate)]
 
 
         #Establish a connection to the MySQL database
@@ -210,6 +213,7 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
         db_connection.close()
         self.load_data()
         self.move_record()
+        self.print_label()
 
 
 
@@ -255,6 +259,48 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
 
         except mysql.connector.Error as err:
             print("Error:", err)
+
+
+    def print_label(self):
+        l = zpl.Label(25,60)
+        height = 0
+        l.origin(30,2)
+        l.write_text("Hyundai AC", char_height=3, char_width=3, line_width=30, justification='C')
+        l.endorigin()
+
+        l.origin(30,10)
+        l.write_text("1402/08/07 12:40", char_height=3, char_width=3, line_width=30, justification='C')
+        l.endorigin()
+
+        l.origin(30,20)
+        l.write_text("QC PASSED", char_height=3, char_width=3, line_width=30, justification='C')
+        l.endorigin()
+
+        # height += 13
+        # image_width = 5
+        # l.origin((l.width-image_width)/2, height)
+        # image_height = l.write_graphic(
+        #     Image.open(os.path.join(os.path.dirname(zpl.__file__), 'trollface-large.png')),
+        #     image_width)
+        # l.endorigin()
+
+        # height += image_height + 5
+        l.origin(5, 2)
+        l.barcode('2', self.tempbarcode, height=150, check_digit='N')
+        l.endorigin()
+        print(str(self.tempbarcode))
+
+        print(l.dumpZPL())
+        l.preview()
+        label = l.dumpZPL()
+
+
+        printer_name = "Adobe PDF"
+
+        # Create a Zebra object
+        z = Zebra(printer_name)
+        z.output(label)
+        # print(z.getqueues())
 
 
 

@@ -205,7 +205,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         self.fetchButton.clicked.connect(self.start_fetching)
         self.stopButton.clicked.connect(self.stop_fetching)
-        # self.saveButton.clicked.connect(self.insert_standard)
+        # self.saveButton.clicked.connect(self.insert_test)
 
 
         # Add a flag to indicate whether the fetching should be stopped

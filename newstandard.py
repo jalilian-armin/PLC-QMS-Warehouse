@@ -798,7 +798,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="192.168.100.201",
+            host="192.168.100.19",
             user="yekta",
             password="Yekta-5310",
             database="qc2"

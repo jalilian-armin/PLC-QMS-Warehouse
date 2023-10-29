@@ -39,7 +39,7 @@ class AssemblyPage(QMainWindow, Ui_AssemblyPage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="85.185.84.197",
+            host="192.168.100.201",
             user="yekta",
             password="Yekta-5310",
             database="qc2"

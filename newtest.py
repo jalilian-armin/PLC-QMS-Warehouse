@@ -7,14 +7,14 @@ from PyQt5.QtGui import QColor
 import minimalmodbus
 import time
 import datetime
-import random
-import barcode
-from barcode import EAN13
+# import random
+# import barcode
+# from barcode import EAN13
 from PIL import Image
 from ui_newtest import Ui_NewTestPage
 from jdatetime import datetime as jdatetime
-import zpl
-from zebra import Zebra
+# import zpl
+# from zebra import Zebra
 
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas

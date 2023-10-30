@@ -287,7 +287,6 @@ class Ui_MainWindow(object):
         self.Blank.setObjectName("Blank")
         self.verticalLayout_2.addWidget(self.Blank)
         self.Footer = QtWidgets.QFrame(self.Side_Menu)
-        self.Footer.setMinimumSize(QtCore.QSize(0, 20))
         self.Footer.setMaximumSize(QtCore.QSize(16777215, 20))
         self.Footer.setStyleSheet("")
         self.Footer.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -321,7 +320,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuTitle.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.User_Job.setText(_translate("MainWindow", "<html><head/><body><p align=\"right\"><span style=\" font-size:7pt;\">اپراتور تست دستگاه</span></p></body></html>"))
-        self.User_Name.setText(_translate("MainWindow", "<html><head/><body><p align=\"right\"><span style=\" font-size:6pt;\">آریا برات زاده</span></p></body></html>"))
+        self.User_Name.setText(_translate("MainWindow", "<html><head/><body><p align=\"right\"><br/></p></body></html>"))
         self.Test_Btn_Text.setText(_translate("MainWindow", "تست دستگاه"))
         self.Standards_Btn_Text.setText(_translate("MainWindow", "استــانداردها"))
         self.Reporst_Btn_Text.setText(_translate("MainWindow", "گــــزارش ها"))
@@ -329,5 +328,4 @@ class Ui_MainWindow(object):
         self.Pack_Btn_Text.setText(_translate("MainWindow", "ایجاد بسته"))
         self.Logout_Btn_Text.setText(_translate("MainWindow", "خــــــــروج"))
         self.Settings_Btn_Text.setText(_translate("MainWindow", "تنظیمـــــات"))
-        self.Version.setText(_translate("MainWindow", "<html><head/><body><p align=\"right\">V 1.0.1</p></body></html>"))
-
+        self.Version.setText(_translate("MainWindow", "<html><head/><body><p align=\"right\"><br/></p></body></html>"))

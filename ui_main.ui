@@ -118,7 +118,7 @@ border: remove;</string>
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../qc/qml/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/logo.png</normaloff>:/newPrefix/icons/logo.png</iconset>
             </property>
             <property name="iconSize">
@@ -248,7 +248,7 @@ border: remove;</string>
              <locale language="Persian" country="Iran"/>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;آریا برات زاده&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -739,12 +739,6 @@ border: remove;</string>
           </item>
           <item>
            <widget class="QFrame" name="Footer">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>20</height>
-             </size>
-            </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -779,7 +773,7 @@ border: remove;</string>
              <item>
               <widget class="QLabel" name="Version">
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;V 1.0.1&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>

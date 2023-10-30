@@ -205,7 +205,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         
 
-        self.fetchButton.clicked.connect(self.start_fetching)
+        self.fetchButton.clicked.connect(self.check_counter)
         self.stopButton.clicked.connect(self.stop_fetching)
         self.saveButton.clicked.connect(self.insert_test)
         # self.printButton.clicked.connect(self.print_label)
@@ -291,7 +291,33 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         
         
 
+    def check_counter(self):
 
+
+        # Connect to MySQL
+        conn = self.database_info()
+        cursor = conn.cursor()
+
+        # Retrieve the current counter value from the database
+        cursor.execute("SELECT counter_value FROM counter_table WHERE id = 1")
+        current_counter = cursor.fetchone()[0]  # Assuming the counter is in column 'counter_value' and the ID is 1
+
+        if current_counter <= 5:
+
+
+            # Increment the counter
+            new_counter = current_counter + 1
+
+            # Update the database with the new counter value
+            update_query = "UPDATE counter_table SET counter_value = %s WHERE id = 1"
+            cursor.execute(update_query, (new_counter,))
+            conn.commit()
+
+            # Close the connection
+            conn.close()
+            self.start_fetching()
+        else:
+            self.testResult.setText("لطفا با پشتیبانی تماس بگیرید")
 
 
     def stop_fetching(self):

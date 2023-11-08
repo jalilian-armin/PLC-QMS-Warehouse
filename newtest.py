@@ -432,11 +432,13 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
         #wait for 1 amper
+        self.testResult.setText("انتظار جریان تا 1 آمپر")
+        ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
         while ampstart < 1:
             ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
             if self.stop_flag:
                 break
-        print("Reached 1A")
+        self.testResult.setText("دریافت جریان اولیه")
         # Fetch sensor amperage data for the specified duration and iterations
         end_timeAmp = time.perf_counter() + durationamperage_input
         
@@ -521,7 +523,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
 
-
+        self.testResult.setText("دریافت دما")
         # Calculate the number of iterations based on the duration and interval
         tempiterations = int(durationtemp_input / intervaltemp_input)
         instrument = minimalmodbus.Instrument(port_input, slaveaddress=2)
@@ -825,10 +827,12 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             if self.min_value_list[i] <= self.value_list[i] <= self.max_value_list[i] :
                 self.tableCompare.setItem(2, i, QTableWidgetItem("پاس"))
                 self.tableCompare.item(2, i).setBackground(QColor(0, 255, 0))
+                self.testResult.setText("QC Pass")
 
             else:
                 self.tableCompare.setItem(2, i, QTableWidgetItem("مردود"))
                 self.tableCompare.item(2, i).setBackground(QColor(255, 0, 0))
+                self.testResult.setText("QC Reject")
         
 
         self.tableCompare.viewport().update()

@@ -353,24 +353,17 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         output_value = True
 
         # Write the digital output value to the RS485 sensor
-        # instrument.slaveaddress = 3
         register_address = 192
         instrument.write_bit(register_address, output_value,functioncode=5)
-
-    
-
-        # except Exception as e:
-        #     # QMessageBox.critical(self.reusltLabel, "Error", f"An error occurred: {str(e)}")
-        #     self.resultLabel.setText("Hello, World!")
-
-
-        # Read the digital input value from the RS485 sensor
-        # instrument.slaveaddress = 3
         register_address = 0
         input_value = instrument.read_bit(register_address, functioncode=1)
+        print("Digital Input 01 Value:", input_value)
 
-        #        Print the digital input value
-        print("Digital Input Value:", input_value)
+        register_address = 193
+        instrument.write_bit(register_address, output_value,functioncode=5)
+        register_address = 1
+        input_value = instrument.read_bit(register_address, functioncode=1)
+        print("Digital Input 02 Value:", input_value)
 
         
         # Calculate the number of iterations based on the duration and interval
@@ -657,16 +650,17 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         output_value = False
 
         # Write the digital output value to the RS485 sensor
-        instrument.slaveaddress = 3
         register_address = 192
         instrument.write_bit(register_address, output_value,functioncode=5)
-
-        # Read the digital input value from the RS485 sensor
-        instrument.slaveaddress = 3
         register_address = 0
         input_value = instrument.read_bit(register_address, functioncode=1)
+        print("Digital Input 01 Value:", input_value)
 
-        print("Digital Input Value:", input_value)
+        register_address = 193
+        instrument.write_bit(register_address, output_value,functioncode=5)
+        register_address = 1
+        input_value = instrument.read_bit(register_address, functioncode=1)
+        print("Digital Input 02 Value:", input_value)
 
         # print(f"Average Temperature1: {average_temperature1:.2f}°C")
         # print(f"Average Temperature2: {average_temperature2:.2f}°C")

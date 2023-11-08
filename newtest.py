@@ -412,13 +412,13 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         instrument.write_bit(register_address, output_value,functioncode=5)
         register_address = 0
         input_value = instrument.read_bit(register_address, functioncode=1)
-        print("Digital Input Value:", input_value)
+        print("Digital Input 01 Value:", input_value)
 
         register_address = 193
         instrument.write_bit(register_address, output_value,functioncode=5)
         register_address = 1
         input_value = instrument.read_bit(register_address, functioncode=1)
-        print("Digital Input Value:", input_value)
+        print("Digital Input 02 Value:", input_value)
 
         # Calculate the number of iterations based on the duration and interval
         intervalamperage_input = float(durationamperage_input/amperageiterations)
@@ -680,18 +680,17 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         output_value = False
 
         # Write the digital output value to the RS485 sensor
-        instrument.slaveaddress = 3
         register_address = 192
         instrument.write_bit(register_address, output_value,functioncode=5)
         register_address = 0
         input_value = instrument.read_bit(register_address, functioncode=1)
-        print("Digital Input Value:", input_value)
+        print("Digital Input 01 Value:", input_value)
 
         register_address = 193
         instrument.write_bit(register_address, output_value,functioncode=5)
         register_address = 1
         input_value = instrument.read_bit(register_address, functioncode=1)
-        print("Digital Input Value:", input_value)
+        print("Digital Input 02 Value:", input_value)
 
 
 

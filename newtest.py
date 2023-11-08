@@ -302,7 +302,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         cursor.execute("SELECT counter_value FROM counter_table WHERE id = 1")
         current_counter = cursor.fetchone()[0]  # Assuming the counter is in column 'counter_value' and the ID is 1
 
-        if current_counter <= 5:
+        if current_counter <= 10000:
 
 
             # Increment the counter
@@ -316,8 +316,13 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             # Close the connection
             conn.close()
             self.start_fetching()
+        
+            if current_counter >= 9500:
+
+                self.testResult.setText(f"Limit DB = {10000-current_counter}   لطفا با پشتیبانی تماس بگیرید")
+        
         else:
-            self.testResult.setText("لطفا با پشتیبانی تماس بگیرید")
+            self.testResult.setText(f"لطفا با پشتیبانی تماس بگیرید")
 
 
     def stop_fetching(self):
@@ -405,13 +410,14 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         # instrument.slaveaddress = 3
         register_address = 192
         instrument.write_bit(register_address, output_value,functioncode=5)
-
-        # Read the digital input value from the RS485 sensor
-        # instrument.slaveaddress = 3
         register_address = 0
         input_value = instrument.read_bit(register_address, functioncode=1)
+        print("Digital Input Value:", input_value)
 
-        #        Print the digital input value
+        register_address = 193
+        instrument.write_bit(register_address, output_value,functioncode=5)
+        register_address = 1
+        input_value = instrument.read_bit(register_address, functioncode=1)
         print("Digital Input Value:", input_value)
 
         # Calculate the number of iterations based on the duration and interval
@@ -424,21 +430,27 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         self.volt_list = []
 
 
-        end_timeAmp = time.perf_counter() + durationamperage_input
 
-
+        #wait for 1 amper
+        while ampstart < 1:
+            ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
+            if self.stop_flag:
+                break
+        print("Reached 1A")
         # Fetch sensor amperage data for the specified duration and iterations
+        end_timeAmp = time.perf_counter() + durationamperage_input
+        
         while time.perf_counter() < end_timeAmp:
-            # Fetch the amperage data from the RS485 device
+            
             next_timeAmp = time.perf_counter() + intervalamperage_input
 
-            # Fetch the amperage data from the RS485 device
+            
 
             if self.stop_flag:
                 break
 
             if self.checkAmpstart.isChecked():
-                ampstart = instrument.read_float(registeraddress=32, functioncode=3)
+                ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
                 self.tableAverage.setItem(0, 9, QTableWidgetItem(f"{ampstart:.2f}A"))
                 self.ampstart_list.append(ampstart)
                 average_ampstart = sum(self.ampstart_list) / len(self.ampstart_list)
@@ -639,7 +651,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             
 
             if self.checkAmptotal.isChecked():
-                amptotal = instrumentamp.read_float(registeraddress=32, functioncode=3)
+                amptotal = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
                 self.tableAverage.setItem(0, 8, QTableWidgetItem(f"{amptotal:.2f}A"))
                 self.amptotal_list.append(amptotal)
                 average_amptotal = sum(self.amptotal_list) / len(self.amptotal_list)
@@ -658,6 +670,8 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             while time.perf_counter() < next_time:
                 pass
 
+            
+
 
 
         instrument = minimalmodbus.Instrument(port_input, slaveaddress=3)
@@ -669,13 +683,17 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         instrument.slaveaddress = 3
         register_address = 192
         instrument.write_bit(register_address, output_value,functioncode=5)
-
-        # Read the digital input value from the RS485 sensor
-        instrument.slaveaddress = 3
         register_address = 0
         input_value = instrument.read_bit(register_address, functioncode=1)
-
         print("Digital Input Value:", input_value)
+
+        register_address = 193
+        instrument.write_bit(register_address, output_value,functioncode=5)
+        register_address = 1
+        input_value = instrument.read_bit(register_address, functioncode=1)
+        print("Digital Input Value:", input_value)
+
+
 
         # print(f"Average Temperature1: {average_temperature1:.2f}°C")
         # print(f"Average Temperature2: {average_temperature2:.2f}°C")
@@ -733,7 +751,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             # Prepare the data as a list of tuples
             self.data = [
                     (motorid, self.comboStandard, self.standard_list[4], durationtemp_input, intervaltemp_input, durationamperage_input, amperageiterations, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
-                    average_temperature6, average_pressure_min, average_pressure_max, average_ampstart, average_amptotal, average_volt, average_temperature7, average_temperature8, self.combined_values, self.result)
+                    average_temperature6, average_pressure_min, average_pressure_max, average_ampstart, average_amptotal, average_volt, average_temperature7, average_temperature8, self.combined_values)
                     #for i in range(len(average_temperature1))
                 ]
 
@@ -745,88 +763,59 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
 
-    
+
+    def update_plot(self, figure, canvas, data_list, title):
+        figure.clear()
+        ax = figure.add_subplot(111)
+        ax.plot(data_list)
+        ax.set_title(title)
+        canvas.draw()
 
     def update_plots(self):
-        # Fetch real-time temperature data from sensors
-        # Replace with your actual method of fetching temperature data
+        plot_data = [
+            (self.figure1, self.canvas1, self.temperature1_list, "Temp 1"),
+            (self.figure2, self.canvas2, self.temperature2_list, "Temp 2"),
+            (self.figure3, self.canvas3, self.temperature3_list, "Temp 3"),
+            (self.figure4, self.canvas4, self.temperature4_list, "Temp 4"),
+            (self.figure5, self.canvas5, self.temperature5_list, "Temp 5"),
+            (self.figure6, self.canvas6, self.temperature6_list, "Temp 6"),
+            (self.figure7, self.canvas7, self.pressure_min_list, "PSI Min"),
+            (self.figure8, self.canvas8, self.pressure_max_list, "PSI Max"),
+            (self.figure9, self.canvas9, self.ampstart_list, "Amp Start"),
+            (self.figure10, self.canvas10, self.volt_list, "Voltage"),
+            (self.figure11, self.canvas11, self.amptotal_list, "Amp Total")
+        ]
 
-        # Update plottemp1 with temperature1 data
-        self.figure1.clear()
-        ax1 = self.figure1.add_subplot(111)
-        ax1.plot(self.temperature1_list)  # Use appropriate plot method based on your data
-        ax1.set_title("Temp 1")
-        self.canvas1.draw()
+        for data in plot_data:
+            self.update_plot(*data)
 
-        # Update plottemp2 with temperature2 data
-        self.figure2.clear()
-        ax2 = self.figure2.add_subplot(111)
-        ax2.plot(self.temperature2_list)  # Use appropriate plot method based on your data
-        ax2.set_title("Temp 2")
-        self.canvas2.draw()
 
-        # Update plottemp3 with temperature3 data
-        self.figure3.clear()
-        ax3 = self.figure3.add_subplot(111)
-        ax3.plot(self.temperature3_list)  # Use appropriate plot method based on your data
-        ax3.set_title("Temp 3")
-        self.canvas3.draw()
+        #     In Python, the `*` operator, when used in function calls, is called the "unpacking operator." It is used to unpack iterables like lists, tuples, or dictionaries into individual elements.
 
-        # Update plottemp4 with temperature4 data
-        self.figure4.clear()
-        ax4 = self.figure4.add_subplot(111)
-        ax4.plot(self.temperature4_list)  # Use appropriate plot method based on your data
-        ax4.set_title("Temp 4")
-        self.canvas4.draw()
+        # For instance, in the code provided:
 
-        # Update plottemp5 with temperature5 data
-        self.figure5.clear()
-        ax5 = self.figure5.add_subplot(111)
-        ax5.plot(self.temperature5_list)  # Use appropriate plot method based on your data
-        ax5.set_title("Temp 5")
-        self.canvas5.draw()
+        # ```python
+        # self.update_plot(*data)
+        # ```
 
-        # Update plottemp6 with temperature6 data
-        self.figure6.clear()
-        ax6 = self.figure6.add_subplot(111)
-        ax6.plot(self.temperature6_list)  # Use appropriate plot method based on your data
-        ax6.set_title("Temp 6")
-        self.canvas6.draw()
+        # The `*data` takes the tuple `data` and unpacks its elements. Since `data` is a tuple and the `update_plot` function expects four arguments (`figure, canvas, data_list, title`), the `*data` allows passing each element of the `data` tuple as a separate argument to the `update_plot` function.
 
-        # Update plottemp7 with temperature7 data
-        self.figure7.clear()
-        ax7 = self.figure7.add_subplot(111)
-        ax7.plot(self.pressure_min_list)  # Use appropriate plot method based on your data
-        ax7.set_title("PSI Min")
-        self.canvas7.draw()
+        # So, in this context, `*data` is used to unpack the elements of the tuple `data` (which holds the necessary information for plotting) into the arguments expected by the `update_plot` function, simplifying the function call.
 
-        # Update plottemp8 with temperature8 data
-        self.figure8.clear()
-        ax8 = self.figure8.add_subplot(111)
-        ax8.plot(self.pressure_max_list)  # Use appropriate plot method based on your data
-        ax8.set_title("PSI max")
-        self.canvas8.draw()
+            
+        #############################SHORTER##########################
+        # def update_plots(self):
+        #     # Fetch real-time temperature data from sensors
+        #     # Replace with your actual method of fetching temperature data
 
-        # Update plotamp with amp data
-        self.figure9.clear()
-        ax9 = self.figure9.add_subplot(111)
-        ax9.plot(self.ampstart_list)  # Use appropriate plot method based on your data
-        ax9.set_title("Amp start")
-        self.canvas9.draw()
+        #     # Update plottemp1 with temperature1 data
+        #     self.figure1.clear()
+        #     ax1 = self.figure1.add_subplot(111)
+        #     ax1.plot(self.temperature1_list)  # Use appropriate plot method based on your data
+        #     ax1.set_title("Temp 1")
+        #     self.canvas1.draw()
 
-        # Update plotvolt with volt data
-        self.figure10.clear()
-        ax10 = self.figure10.add_subplot(111)
-        ax10.plot(self.volt_list)  # Use appropriate plot method based on your data
-        ax10.set_title("Voltage")
-        self.canvas10.draw()
 
-        # Update plotamp with amp data
-        self.figure11.clear()
-        ax11 = self.figure11.add_subplot(111)
-        ax11.plot(self.amptotal_list)  # Use appropriate plot method based on your data
-        ax11.set_title("Amp total")
-        self.canvas11.draw()
 
 
 
@@ -916,7 +905,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="192.168.100.19",
+            host="192.168.100.12",
             user="yekta",
             password="Yekta-5310",
             database="qc2"
@@ -938,12 +927,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         # Define the SQL query to insert data into the table
         insert_query = "INSERT INTO test (serial, standardname, gas, testduration, intervaltemp, durationamperage, intervalamperage, testtime, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageampstart, averageamptotal, averagevolt, averagetemperature7, averagetemperature8, standardrange, result) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
-        # # Prepare the data as a list of tuples
-        # self.data = [
-        #     (standardname, durationtemp_input, intervaltemp_input, durationamperage_input, intervalamperage_input, tolerance_input, sensor_stat1, sensor_stat2, sensor_stat3, sensor_stat4, sensor_stat5, sensor_stat6, sensor_stat7, sensor_stat8, amp_stat, volt_stat, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
-        #     average_temperature6, average_temperature7, average_temperature8, average_pressure_max, average_pressure_min)
-        #     #for i in range(len(average_temperature1))
-        # ]
+
 
         # Execute the SQL query to insert the data into the table
         cursor.executemany(insert_query, self.data)

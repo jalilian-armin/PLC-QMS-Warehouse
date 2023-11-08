@@ -402,7 +402,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
 
             if self.checkAmpstart.isChecked():
-                ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3)
+                ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
                 self.tableAverage.setItem(0, 9, QTableWidgetItem(f"{ampstart:.2f}A"))
                 self.ampstart_list.append(ampstart)
                 average_ampstart = sum(self.ampstart_list) / len(self.ampstart_list)
@@ -625,7 +625,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
 
             if self.checkAmptotal.isChecked():
-                amptotal = instrumentamp.read_float(registeraddress=32, functioncode=3)
+                amptotal = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
                 self.tableAverage.setItem(0, 8, QTableWidgetItem(f"{amptotal:.2f}A"))
                 self.amptotal_list.append(amptotal)
                 average_amptotal = sum(self.amptotal_list) / len(self.amptotal_list)
@@ -798,7 +798,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="192.168.100.19",
+            host="192.168.100.12",
             user="yekta",
             password="Yekta-5310",
             database="qc2"

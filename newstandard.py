@@ -243,7 +243,13 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
 
 
-
+    def show_warning_dialog(self, message):
+        warning_box = QMessageBox()
+        warning_box.setIcon(QMessageBox.Warning)
+        warning_box.setWindowTitle("Warning")
+        warning_box.setText(message)
+        warning_box.setStandardButtons(QMessageBox.Ok)
+        warning_box.exec()
 
 
 
@@ -264,6 +270,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
         self.stopButton.setEnabled(True)
         self.fetchButton.setEnabled(False)
+        self.saveButton.setEnabled(False)
 
 
         self.temperature1_list = []  # Reset the temperature1_list
@@ -337,52 +344,52 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         # Convert the end time to a string in "HH:MM:SS" format
         end_timeTotal = end_time_datetime.strftime("%H:%M:%S")
         self.endTime.setText(end_timeTotal)
-        # try:
+        try:
     
         
-        # Create an instance of the Instrument class
-        instrument = minimalmodbus.Instrument(port_input, slaveaddress=3)
+            # Create an instance of the Instrument class
+            instrument = minimalmodbus.Instrument(port_input, slaveaddress=3)
 
-        # Optionally, configure the serial communication parameters if needed
-        instrument.serial.baudrate = 38400
-        instrument.serial.bytesize = 8
-        instrument.serial.parity = minimalmodbus.serial.PARITY_NONE
-        instrument.serial.stopbits = 1
+            # Optionally, configure the serial communication parameters if needed
+            instrument.serial.baudrate = 38400
+            instrument.serial.bytesize = 8
+            instrument.serial.parity = minimalmodbus.serial.PARITY_NONE
+            instrument.serial.stopbits = 1
 
-        #Set the output value to True or False
-        output_value = True
-
-        # Write the digital output value to the RS485 sensor
-        register_address = 192
-        instrument.write_bit(register_address, output_value,functioncode=5)
-        register_address = 0
-        input_value = instrument.read_bit(register_address, functioncode=1)
-        print("Digital Input 01 Value:", input_value)
-
-        register_address = 193
-        instrument.write_bit(register_address, output_value,functioncode=5)
-        register_address = 1
-        input_value = instrument.read_bit(register_address, functioncode=1)
-        print("Digital Input 02 Value:", input_value)
-
+            #Set the output value to True or False
+            output_value = True
         
+            # Write the digital output value to the RS485 sensor
+            register_address = 192
+            instrument.write_bit(register_address, output_value,functioncode=5)
+            register_address = 0
+            input_value = instrument.read_bit(register_address, functioncode=1)
+            print("Digital Input 01 Value:", input_value)
+
+            register_address = 193
+            instrument.write_bit(register_address, output_value,functioncode=5)
+            register_address = 1
+            input_value = instrument.read_bit(register_address, functioncode=1)
+            print("Digital Input 02 Value:", input_value)
+
+        except Exception as e:
+            self.show_warning_dialog(f"پورت اشتباه, {e}")
+            # Add error handling or recovery mechanism here
+
+
+
+
+
         # Calculate the number of iterations based on the duration and interval
         # amperageiterations = int(durationamperage_input / intervalamperage_input)
         intervalamperage_input = float(durationamperage_input/amperageiterations)
         
         instrumentamp = minimalmodbus.Instrument(port_input, slaveaddress=1)
 
-        # Optionally, configure the serial communication parameters if needed
-
-
-        
-
         self.ampstart_list = []
         self.volt_list = []
 
-
         end_timeAmp = time.perf_counter() + durationamperage_input
-
 
         # Fetch sensor amperage data for the specified duration and iterations
         while time.perf_counter() < end_timeAmp:
@@ -792,7 +799,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="192.168.100.12",
+            host="127.0.0.1",
             user="yekta",
             password="Yekta-5310",
             database="qc2"

@@ -49,7 +49,7 @@ class WarehousePage(QMainWindow, Ui_WarehousePage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="192.168.100.12",
+            host="127.0.0.1",
             user="yekta",
             password="Yekta-5310",
             database="qc2"

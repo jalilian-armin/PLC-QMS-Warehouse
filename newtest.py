@@ -205,7 +205,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         
 
-        self.fetchButton.clicked.connect(self.check_counter)
+        self.fetchButton.clicked.connect(self.start_fetching)
         self.stopButton.clicked.connect(self.stop_fetching)
         self.saveButton.clicked.connect(self.insert_test)
         # self.printButton.clicked.connect(self.print_label)
@@ -327,6 +327,8 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
     def stop_fetching(self):
         self.stop_flag = True
+        
+        
     
 
 
@@ -336,6 +338,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         self.stopButton.setEnabled(True)
         self.fetchButton.setEnabled(False)
+        self.saveButton.setEnabled(False)
 
 
         self.temperature1_list = []  # Reset the temperature1_list
@@ -434,7 +437,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         #wait for 1 amper
         self.testResult.setText("انتظار جریان تا 1 آمپر")
         ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
-        while ampstart < 1:
+        while ampstart < 0:
             ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
             if self.stop_flag:
                 break
@@ -445,8 +448,6 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         while time.perf_counter() < end_timeAmp:
             
             next_timeAmp = time.perf_counter() + intervalamperage_input
-
-            
 
             if self.stop_flag:
                 break
@@ -756,11 +757,16 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
                     #for i in range(len(average_temperature1))
                 ]
 
-            self.saveButton.setEnabled(True)
-
-        self.stopButton.setEnabled(False)
+        
         self.fetchButton.setEnabled(True)
-           
+        self.stopButton.setEnabled(False)
+
+
+
+        if self.stop_flag == False:
+            self.saveButton.setEnabled(True)
+    
+
 
 
 
@@ -908,7 +914,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="192.168.100.12",
+            host="127.0.0.1",
             user="yekta",
             password="Yekta-5310",
             database="qc2"

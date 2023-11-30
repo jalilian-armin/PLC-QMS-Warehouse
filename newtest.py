@@ -436,6 +436,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         #wait for 1 amper
         self.testResult.setText("انتظار جریان تا 1 آمپر")
+        self.testResult.setStyleSheet("background-color: rgb(240, 240, 240);\nborder: 1px solid black;")
         ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
         while ampstart < 0:
             ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
@@ -759,7 +760,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         
         self.fetchButton.setEnabled(True)
-        self.stopButton.setEnabled(False)
+        # self.stopButton.setEnabled(False)
 
 
 
@@ -833,12 +834,12 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             if self.min_value_list[i] <= self.value_list[i] <= self.max_value_list[i] :
                 self.tableCompare.setItem(2, i, QTableWidgetItem("پاس"))
                 self.tableCompare.item(2, i).setBackground(QColor(0, 255, 0))
-                self.testResult.setText("QC Pass")
+        
 
             else:
                 self.tableCompare.setItem(2, i, QTableWidgetItem("مردود"))
                 self.tableCompare.item(2, i).setBackground(QColor(255, 0, 0))
-                self.testResult.setText("QC Reject")
+                
         
 
         self.tableCompare.viewport().update()
@@ -847,6 +848,14 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         if all_correct:
 
             self.result = True
+            self.testResult.setText("QC Pass")
+            self.testResult.setStyleSheet("background-color: rgb(0, 255, 0);\nborder: 1px solid black;")
+            
+        else:
+            self.testResult.setText("QC Reject")
+            self.testResult.setStyleSheet("background-color: rgb(255, 0, 0);\nborder: 1px solid black;")
+            
+            
 
 
 

@@ -687,7 +687,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         # Prepare the data as a list of tuples
             self.data = [
                 (standardname, model_input, brand_input, gas_input, durationtemp_input, intervaltemp_input, durationamperage_input, amperageiterations, tolerance_temp1, tolerance_temp2, tolerance_temp3, tolerance_temp4, tolerance_temp5, tolerance_temp6, tolerance_temp7, tolerance_temp8, tolerance_amptotal, tolerance_ampstart, tolerance_volt, sensor_stat1, sensor_stat2, sensor_stat3, sensor_stat4, sensor_stat5, sensor_stat6, sensor_stat7, sensor_stat8, ampstart_stat, amptotal_stat, volt_stat, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
-                average_temperature6, average_pressure_min, average_pressure_max, average_ampstart, average_amptotal, average_volt, average_temperature7, average_temperature8)
+                average_temperature6, average_pressure_min, average_pressure_max, average_amptotal, average_ampstart, average_volt, average_temperature7, average_temperature8)
                 #for i in range(len(average_temperature1))
             ]
 
@@ -695,7 +695,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
             
 
-        self.stopButton.setEnabled(False)
+        # self.stopButton.setEnabled(False)
         self.fetchButton.setEnabled(True)
 
 
@@ -821,7 +821,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
 
         # Define the SQL query to insert data into the table
-        insert_query = "INSERT INTO standard (standardname, model, brand, gas, testtime, intervaltemp, durationamperage, intervalamperage, tolerancetemp1, tolerancetemp2, tolerancetemp3, tolerancetemp4, tolerancetemp5, tolerancetemp6, tolerancepressuremin, tolerancepressuremax, toleranceampstart, toleranceamptotal, tolerancevolt, sensorstat1, sensorstat2, sensorstat3, sensorstat4, sensorstat5, sensorstat6, sensorstat7, sensorstat8, ampstartstat, amptotalstat, voltstat, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageampstart, averageamptotal, averagevolt, averagetemperature7, averagetemperature8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        insert_query = "INSERT INTO standard (standardname, model, brand, gas, testtime, intervaltemp, durationamperage, intervalamperage, tolerancetemp1, tolerancetemp2, tolerancetemp3, tolerancetemp4, tolerancetemp5, tolerancetemp6, tolerancepressuremin, tolerancepressuremax, toleranceampstart, toleranceamptotal, tolerancevolt, sensorstat1, sensorstat2, sensorstat3, sensorstat4, sensorstat5, sensorstat6, sensorstat7, sensorstat8, ampstartstat, amptotalstat, voltstat, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageamptotal, averageampstart, averagevolt, averagetemperature7, averagetemperature8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
         # # Prepare the data as a list of tuples
         # self.data = [
@@ -857,7 +857,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         selected_option = self.comboStandard.currentText()
         self.standard_list = retrieve_standardparam(selected_option)
         
-        self.standardName_2.setText(str(selected_option))
+        self.standardName_2.setText(str(selected_option + "_edited"))
         self.modelDevice_2.setText(str(self.standard_list[2]))
         self.companyName_2.setText(str(self.standard_list[3]))
         self.gasType_2.setText(str(self.standard_list[4]))
@@ -899,15 +899,19 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         self.avgTemp6.setText(str(self.standard_list[36]))
         self.avgTemp7.setText(str(self.standard_list[37]))
         self.avgTemp8.setText(str(self.standard_list[38]))
-        self.avgAmpstart.setText(str(self.standard_list[39]))
-        self.avgAmptotal.setText(str(self.standard_list[40]))
+        self.avgAmptotal.setText(str(self.standard_list[39]))
+        self.avgAmpstart.setText(str(self.standard_list[40]))
         self.avgVolt.setText(str(self.standard_list[41]))
 
 
         print("Selected option:", self.standard_list)
         print(len(self.standard_list))
         self.deleteBtn.setEnabled(True)
+        #newstandardName = str(self.standardName_2.text())
+
         self.editBtn.setEnabled(True)
+        
+        
 
 
 

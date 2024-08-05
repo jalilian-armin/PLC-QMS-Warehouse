@@ -34,28 +34,22 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         super().__init__()
         self.setupUi(self)
 
-        ###two way for importing ui
-        #self.ui = Ui_MainWindow delete ui_mainwindow from class parameters
-        #self.ui.setupUi(self)
-        #self.ui.combostandard = self.findChild(QComboBox, "widgetStandard")  # Replace "combobox_name" with the actual name of the combobox in the .ui file
-        
-        #uic.loadUi(os.path.join(os.path.dirname(os.path.abspath(__file__)), "qml/arya/newtest.ui"), self)
 
 
-        
+        # Set up table resize mode
         self.tableAverage.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
 
 
+
+        # Set up plot layouts
         # Find the QWidget objects named "plottemp1" and "plottemp2"
         self.plot_widget = self.findChild(QWidget, "frame")
+        
         
         # Create a QGridLayout for the plots
         layout = QGridLayout()
         self.plot_widget.setLayout(layout)
-
-
-        
 
 
         # Create Matplotlib figures and canvases for the plots
@@ -152,41 +146,18 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
 
 
+        # Set up combo box for ports
+        self.setup_combo_ports()
 
+        
+        # Set up combo box for standards
+        self.setup_combo_standards() ##Tab2##
 
+        # Connect buttons to their respective methods
+        self.connect_buttons()
 
-
-
-
-        self.comboPort = self.findChild(QComboBox, "widgetPort")  # Replace "combobox_name" with the actual name of the combobox in the .ui file
-        self.comboPort.addItems(["COM5", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"])
-       
-
-
-
-
-        ############tab2#########################################################################################################################################################################################
-        self.comboStandard = self.findChild(QComboBox, "widgetStandard_2")  # Replace "combobox_name" with the actual name of the combobox in the .ui file
-        items = retrieve_standardss()
-        # # Populate the combobox with the retrieved items
-        if items is not None:
-            self.comboStandard.addItems(items)
-        self.comboStandard.setCurrentIndex(-1)
-
-        #############or###############
-
-        # items = retrieve_standards()
-        # # # Populate the combobox with the retrieved items
-        # for item in items:
-        #     self.comboStandard.addItem(items[0])
-
-        ### define what happend after selevting item in dropdown
-        self.comboStandard.currentIndexChanged.connect(self.handle_dropdown_change)
-
-        self.editBtn.clicked.connect(self.edit_standard)
-        self.deleteBtn.clicked.connect(self.delete_standard)
-
-
+        # Initialize lists for storing data
+        self.initialize_data_lists()
 
         #################tab2##################################
 
@@ -204,22 +175,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         self.toleranceVolt.clear()
 
 
-        
 
-        self.amptotal_list = []
-        self.volt_list = []
-
-        self.temperature1_list = []
-        self.temperature2_list = []
-        self.temperature3_list = []
-        self.temperature4_list = []
-        self.temperature5_list = []
-        self.temperature6_list = []
-        self.temperature7_list = []
-        self.temperature8_list = []
-        self.pressure_max_list = []
-        self.pressure_min_list = []
-    
 
 
         # # Enable the button if all line edits have non-empty and different text, otherwise disable it
@@ -234,13 +190,53 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         self.fetch_thread = None
 
 
+        # Add a flag to indicate whether the fetching should be stopped
+        self.stop_flag  = False
+
+
+
+
+
+
+
+    def setup_combo_ports(self):
+        self.comboPort = self.findChild(QComboBox, "widgetPort")
+        self.comboPort.addItems([f"COM{n}" for n in range(1, 10)])
+
+
+    def setup_combo_standards(self):     ##Tab2##
+        self.comboStandard = self.findChild(QComboBox, "widgetStandard_2")
+        items = retrieve_standardss()
+        if items is not None:
+            self.comboStandard.addItems(items)
+        self.comboStandard.setCurrentIndex(-1)
+        self.comboStandard.currentIndexChanged.connect(self.handle_dropdown_change)
+
+
+
+    def connect_buttons(self):
+        self.editBtn.clicked.connect(self.edit_standard) ##Tab2##
+        self.deleteBtn.clicked.connect(self.delete_standard) ##Tab2##
         self.fetchButton.clicked.connect(self.start_fetching)
         self.stopButton.clicked.connect(self.stop_fetching)
         self.saveButton.clicked.connect(self.insert_standard)
 
 
-        # Add a flag to indicate whether the fetching should be stopped
-        self.stop_flag  = False
+
+    def initialize_data_lists(self):
+        self.amptotal_list = []
+        self.volt_list = []
+        self.temperature1_list = []
+        self.temperature2_list = []
+        self.temperature3_list = []
+        self.temperature4_list = []
+        self.temperature5_list = []
+        self.temperature6_list = []
+        self.temperature7_list = []
+        self.temperature8_list = []
+        self.pressure_max_list = []
+        self.pressure_min_list = []
+
 
 
 
@@ -274,19 +270,9 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         self.saveButton.setEnabled(False)
 
 
-        self.temperature1_list = []  # Reset the temperature1_list
-        self.temperature2_list = []  # Reset the temperature1_list
-        self.temperature3_list = []
-        self.temperature4_list = []
-        self.temperature5_list = []
-        self.temperature6_list = []
-        self.temperature7_list = []
-        self.temperature8_list = []
-        self.pressure_max_list = []
-        self.pressure_min_list = []
+        self.initialize_data_lists()
         self.value_list = []
-        self.amptotal_list = []
-        self.volt_list = []
+
 
 
         if self.fetch_thread is None or not self.fetch_thread.is_alive():

@@ -28,6 +28,10 @@ from databasefile import *
 
 
 
+class SignalEmitter(QtCore.QObject):
+    fetch_done = QtCore.pyqtSignal()
+
+
 
 
 
@@ -35,14 +39,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
     show_warning_signal = pyqtSignal(str)
     def __init__(self):
         super().__init__()
-
-
-        ###two way for importing ui
-        #self.ui = Ui_MainWindow delete ui_mainwindow from class parameters
-        #self.ui.setupUi(self)
-        #self.ui.combostandard = self.findChild(QComboBox, "widgetStandard")  # Replace "combobox_name" with the actual name of the combobox in the .ui file
         self.setupUi(self)
-        #uic.loadUi(os.path.join(os.path.dirname(os.path.abspath(__file__)), "qml/arya/newtest.ui"), self)
 
 
         self.tableAverage.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
@@ -154,35 +151,30 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
 
+        # Set up combo box for ports
+        self.setup_combo_ports()
 
+        # Set up combo box for standards
+        self.setup_combo_standards() 
 
-        self.comboPort = self.findChild(QComboBox, "widgetPort")  # Replace "combobox_name" with the actual name of the combobox in the .ui file
-        self.comboPort.addItems(["COM5", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"])
-
-
-
-
-
-        self.comboStandard = self.findChild(QComboBox, "widgetStandard")  # Replace "combobox_name" with the actual name of the combobox in the .ui file
-        items = retrieve_standardss()
-        # # Populate the combobox with the retrieved items
-        if items is not None:
-            self.comboStandard.addItems(items)
+        # Initialize lists for storing data
+        self.initialize_data_lists()
         
-        self.comboStandard.setCurrentIndex(-1)
+        # Connect buttons to their respective methods
+        self.connect_buttons()
 
-        #############or###############
+        # Start a separate thread to fetch temperature data
+        self.fetch_thread = None
 
-        # items = retrieve_standards()
-        # # # Populate the combobox with the retrieved items
-        # for item in items:
-        #     self.comboStandard.addItem(items[0])
-
-        ### define what happend after selevting item in dropdown
-        self.comboStandard.currentIndexChanged.connect(self.handle_dropdown_change)
-        self.comboStandard.currentIndexChanged.connect(self.on_text_changed)
+        # Add a flag to indicate whether the fetching should be stopped
+        self.stop_flag  = False
 
 
+        # Initialize SignalEmitter
+        self.signal_emitter = SignalEmitter()
+        self.signal_emitter.fetch_done.connect(self.onFetchDone)
+
+        
         self.motorId.textChanged.connect(self.on_text_changed)
 
         
@@ -192,10 +184,26 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
 
+    def setup_combo_ports(self):
+        self.comboPort = self.findChild(QComboBox, "widgetPort")
+        self.comboPort.addItems([f"COM{n}" for n in range(1, 10)])
 
-        
-        self.volt_list = []
+
+    def setup_combo_standards(self):   
+        self.comboStandard = self.findChild(QComboBox, "widgetStandard")
+        items = retrieve_standardss()
+        if items is not None:
+            self.comboStandard.addItems(items)
+        self.comboStandard.setCurrentIndex(-1)
+        ### define what happend after selevting item in dropdown
+        self.comboStandard.currentIndexChanged.connect(self.handle_dropdown_change)
+        self.comboStandard.currentIndexChanged.connect(self.on_text_changed)
+
+
+
+    def initialize_data_lists(self):
         self.amptotal_list = []
+        self.volt_list = []
         self.temperature1_list = []
         self.temperature2_list = []
         self.temperature3_list = []
@@ -206,22 +214,15 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         self.temperature8_list = []
         self.pressure_max_list = []
         self.pressure_min_list = []
-    
 
-        # Start a separate thread to fetch temperature data
-        self.fetch_thread = None
 
-        
 
+
+    def connect_buttons(self):
         self.fetchButton.clicked.connect(self.start_fetching)
         self.stopButton.clicked.connect(self.stop_fetching)
         # self.saveButton.clicked.connect(self.insert_test)
         # self.printButton.clicked.connect(self.print_label)
-
-
-        # Add a flag to indicate whether the fetching should be stopped
-        self.stop_flag  = False
-
 
 
     @QtCore.pyqtSlot()
@@ -264,11 +265,11 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
     def calculate_tolerance(self):
-        standard_tolerance = self.standard_list[9:20]
-        self.standard_value = self.standard_list[31:42]
+        standard_tolerance = self.standard_list[10:21]
+        self.standard_value = self.standard_list[32:43]
         self.max_value_list = []
         self.min_value_list = []
-        for i, j in zip(range(31, 42), range(0, 11)):
+        for i, j in zip(range(32, 43), range(0, 11)):
 
 
             min_value = round(self.standard_list[i] - (self.standard_list[i] * standard_tolerance[j] / 100), 2)
@@ -368,19 +369,8 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         self.saveButton.setEnabled(False)
 
 
-        self.temperature1_list = []  # Reset the temperature1_list
-        self.temperature2_list = []  # Reset the temperature1_list
-        self.temperature3_list = []
-        self.temperature4_list = []
-        self.temperature5_list = []
-        self.temperature6_list = []
-        self.temperature7_list = []
-        self.temperature8_list = []
-        self.pressure_max_list = []
-        self.pressure_min_list = []
+        self.initialize_data_lists()
         self.value_list = []
-        self.amptotal_list = []
-        self.volt_list = []
 
         if self.fetch_thread is None or not self.fetch_thread.is_alive():
             self.stop_flag = False
@@ -802,18 +792,25 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             
             self.insert_test()
             time.sleep(1)
-            self.testResult.setText("تست ثبت شد")
+            
             # self.testResult.setStyleSheet("background-color: rgb(0, 0, 255);\nborder: 1px solid black;")
 
-        
-        self.fetchButton.setEnabled(True)
+
+
+        self.signal_emitter.fetch_done.emit()
+
+
+    
+
+    @QtCore.pyqtSlot()
+    def onFetchDone(self):
+        self.testResult.setText("تست ثبت شد")
         self.stopButton.setEnabled(False)
-
-
-
+        self.fetchButton.setEnabled(True)
         # if self.stop_flag == False:
         #     self.saveButton.setEnabled(True)
-    
+
+
 
 
 

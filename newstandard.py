@@ -25,7 +25,8 @@ from jdatetime import datetime as jdatetime
 
 
 
-
+class SignalEmitter(QtCore.QObject):
+    fetch_done = QtCore.pyqtSignal()
 
 
 
@@ -46,7 +47,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         # Find the QWidget objects named "plottemp1" and "plottemp2"
         self.plot_widget = self.findChild(QWidget, "frame")
         
-        
+
         # Create a QGridLayout for the plots
         layout = QGridLayout()
         self.plot_widget.setLayout(layout)
@@ -158,22 +159,10 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
         # Initialize lists for storing data
         self.initialize_data_lists()
-
-        #################tab2##################################
-
+        
+        # Initialize tab2 elements
+        self.initialize_tab2()
         # self.toleranceSpin.valueChanged.connect(self.tolerance)
-        self.toleranceTemp1.clear()
-        self.toleranceTemp2.clear()
-        self.toleranceTemp3.clear()
-        self.toleranceTemp4.clear()
-        self.toleranceTemp5.clear()
-        self.toleranceTemp6.clear()
-        self.toleranceTemp7.clear()
-        self.toleranceTemp8.clear()
-        self.toleranceAmpstart.clear()
-        self.toleranceAmptotal.clear()
-        self.toleranceVolt.clear()
-
 
 
 
@@ -184,7 +173,9 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         # else:
         #    self.fetchButton.setEnabled(False)
 
-
+        # Initialize SignalEmitter
+        self.signal_emitter = SignalEmitter()
+        self.signal_emitter.fetch_done.connect(self.onFetchDone)
 
         # Start a separate thread to fetch temperature data
         self.fetch_thread = None
@@ -238,7 +229,18 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         self.pressure_min_list = []
 
 
-
+    def initialize_tab2(self):
+        self.toleranceTemp1.clear()
+        self.toleranceTemp2.clear()
+        self.toleranceTemp3.clear()
+        self.toleranceTemp4.clear()
+        self.toleranceTemp5.clear()
+        self.toleranceTemp6.clear()
+        self.toleranceTemp7.clear()
+        self.toleranceTemp8.clear()
+        self.toleranceAmpstart.clear()
+        self.toleranceAmptotal.clear()
+        self.toleranceVolt.clear()
 
     def show_warning_dialog(self, message):
         warning_box = QMessageBox()
@@ -259,13 +261,14 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
     def stop_fetching(self):
         self.stop_flag = True
+        self.standardResultLabel.setText("استاندارد متوقف شد")
     
 
 
     def start_fetching(self):
         
 
-        self.stopButton.setEnabled(False)
+        self.stopButton.setEnabled(True)
         self.fetchButton.setEnabled(False)
         self.saveButton.setEnabled(False)
 
@@ -279,7 +282,6 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
             self.stop_flag = False
             self.fetch_thread = threading.Thread(target=self.fetchSensorData)
             self.fetch_thread.daemon = True
-            # self.fetch_thread.fetch_done.connect(self.onFetchDone)
             self.fetch_thread.start()
 
 
@@ -699,32 +701,36 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
         # print(standard_jdate_str)
             
-        self.standardResultLabel.setText("پایان استاندارد ")
-        print("end test")
-        self.fetchButton.setEnabled(True)
-        print("end test2")
-        self.stopButton.setEnabled(False)
-        print("end test3")
+        # self.standardResultLabel.setText("پایان استاندارد ")
+        # print("end test")
+        # self.fetchButton.setEnabled(True)
+        # print("end test2")
+        # self.stopButton.setEnabled(False)
+        # print("end test3")
 
 
 
-        if self.stop_flag == False:
-            self.saveButton.setEnabled(True)
+        # if self.stop_flag == False:
+        #     self.saveButton.setEnabled(True)
 
 
-        # self.fetch_done = QtCore.pyqtSignal()
+       
 
-        # self.fetch_thread.fetch_done.emit()
+        self.signal_emitter.fetch_done.emit()
 
 
     
 
-    # @QtCore.pyqtSlot()
-    # def onFetchDone(self):
-    #     self.standardResultLabel.setText("Fetch completed")
-    #     self.stopButton.setEnabled(False)
-    #     self.fetchButton.setEnabled(True)
-    #     self.saveButton.setEnabled(True)
+    @QtCore.pyqtSlot()
+    def onFetchDone(self):
+        self.standardResultLabel.setText("پایان استاندارد ")
+        self.stopButton.setEnabled(False)
+        self.fetchButton.setEnabled(True)
+        if self.stop_flag == False:
+            self.saveButton.setEnabled(True)
+
+
+    
 
         
 

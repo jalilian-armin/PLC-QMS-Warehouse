@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1212</width>
+    <width>1236</width>
     <height>859</height>
    </rect>
   </property>
@@ -14,14 +14,8 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="maximumSize">
-    <size>
-     <width>1212</width>
-     <height>16777215</height>
-    </size>
-   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
-    <item alignment="Qt::AlignTop">
+    <item>
      <widget class="QFrame" name="Test_Properties">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -445,7 +439,6 @@ border: 1px solid black;</string>
          <property name="font">
           <font>
            <family>IRANSansWeb(FaNum)</family>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -686,7 +679,7 @@ border: 1px solid black;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1139</width>
+             <width>1180</width>
              <height>2000</height>
             </rect>
            </property>
@@ -735,31 +728,19 @@ border: 1px solid black;</string>
        <attribute name="title">
         <string>نمای جدول</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
          <widget class="QTableWidget" name="tableAverage">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>0</width>
             <height>100</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>1155</width>
-            <height>16777215</height>
            </size>
           </property>
           <property name="font">
@@ -777,29 +758,32 @@ border: 1px solid black;</string>
           <property name="locale">
            <locale language="Persian" country="Iran"/>
           </property>
-          <property name="frameShape">
-           <enum>QFrame::WinPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Sunken</enum>
-          </property>
           <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAsNeeded</enum>
+           <enum>Qt::ScrollBarAlwaysOff</enum>
           </property>
           <property name="horizontalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOff</enum>
           </property>
           <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContents</enum>
-          </property>
-          <property name="autoScroll">
-           <bool>true</bool>
+           <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>true</bool>
+          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>100</number>
+          </attribute>
+          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>false</bool>
           </attribute>
           <row>
            <property name="text">
@@ -868,7 +852,7 @@ border: 1px solid black;</string>
           </column>
          </widget>
         </item>
-        <item>
+        <item row="1" column="0">
          <widget class="QTableWidget" name="tableCompare">
           <property name="enabled">
            <bool>true</bool>
@@ -877,12 +861,6 @@ border: 1px solid black;</string>
            <size>
             <width>0</width>
             <height>130</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>1158</width>
-            <height>16777215</height>
            </size>
           </property>
           <property name="font">
@@ -899,9 +877,6 @@ border: 1px solid black;</string>
           </property>
           <property name="locale">
            <locale language="Persian" country="Iran"/>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::WinPanel</enum>
           </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -1006,6 +981,9 @@ border: 1px solid black;</string>
            </property>
           </item>
          </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QWidget" name="widget" native="true"/>
         </item>
        </layout>
       </widget>

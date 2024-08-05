@@ -2,6 +2,7 @@
 import os
 import sys
 from PyQt5.QtCore import QMetaObject, Qt, QModelIndex
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 from PyQt5.QtSql import QSqlTableModel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
@@ -20,7 +21,7 @@ from databasefile import *
 
 import datetime
 
-
+from jdatetime import datetime as jdatetime
 
 
 
@@ -31,24 +32,24 @@ import datetime
 class NewStandardPage(QMainWindow, Ui_NewStandardPage):
     def __init__(self):
         super().__init__()
-
+        self.setupUi(self)
 
         ###two way for importing ui
         #self.ui = Ui_MainWindow delete ui_mainwindow from class parameters
         #self.ui.setupUi(self)
         #self.ui.combostandard = self.findChild(QComboBox, "widgetStandard")  # Replace "combobox_name" with the actual name of the combobox in the .ui file
-        self.setupUi(self)
+        
         #uic.loadUi(os.path.join(os.path.dirname(os.path.abspath(__file__)), "qml/arya/newtest.ui"), self)
 
 
+        
+        self.tableAverage.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
 
 
         # Find the QWidget objects named "plottemp1" and "plottemp2"
         self.plot_widget = self.findChild(QWidget, "frame")
         
-
-
         # Create a QGridLayout for the plots
         layout = QGridLayout()
         self.plot_widget.setLayout(layout)
@@ -268,7 +269,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
     def start_fetching(self):
         
 
-        self.stopButton.setEnabled(True)
+        self.stopButton.setEnabled(False)
         self.fetchButton.setEnabled(False)
         self.saveButton.setEnabled(False)
 
@@ -292,13 +293,15 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
             self.stop_flag = False
             self.fetch_thread = threading.Thread(target=self.fetchSensorData)
             self.fetch_thread.daemon = True
+            # self.fetch_thread.fetch_done.connect(self.onFetchDone)
             self.fetch_thread.start()
-            # self.start_animations()
+
 
 
 
 
     def fetchSensorData(self):
+        self.standardResultLabel.clear()
 
         # Get the COM port number from the user input
         #port = self.portInput.text()
@@ -389,6 +392,19 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         self.ampstart_list = []
         self.volt_list = []
 
+
+        #wait for 1 amper
+        self.standardResultLabel.setText("انتظار جریان تا 1 آمپر")
+        self.standardResultLabel.setStyleSheet("background-color: rgb(240, 240, 240);\nborder: 1px solid black;")
+        ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
+        # while ampstart < 1:
+        #     ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
+        #     print(ampstart)
+        #     if self.stop_flag:
+        #         break
+
+        self.standardResultLabel.setText("دریافت جریان اولیه")
+
         end_timeAmp = time.perf_counter() + durationamperage_input
 
         # Fetch sensor amperage data for the specified duration and iterations
@@ -474,7 +490,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
             
 
-
+        self.standardResultLabel.setText("دریافت دما")
 
         # Calculate the number of iterations based on the duration and interval
         tempiterations = int(durationtemp_input / intervaltemp_input)
@@ -679,32 +695,50 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         # print(f"Average Temperature8: {average_temperature8:.2f}°C")
         # print(f"Average pressure max: {average_pressure_max:.2f}psi")
         # print(f"Average pressure min: {average_pressure_min:.2f}psi")
+        # standard_jdate = jdatetime.now()
 
-
+        standard_jdate_str = jdatetime.now().strftime('%Y%m%d')
+        # print(standard_jdate_str)
         if self.stop_flag == False:
+
 
 
         # Prepare the data as a list of tuples
             self.data = [
-                (standardname, model_input, brand_input, gas_input, durationtemp_input, intervaltemp_input, durationamperage_input, amperageiterations, tolerance_temp1, tolerance_temp2, tolerance_temp3, tolerance_temp4, tolerance_temp5, tolerance_temp6, tolerance_temp7, tolerance_temp8, tolerance_amptotal, tolerance_ampstart, tolerance_volt, sensor_stat1, sensor_stat2, sensor_stat3, sensor_stat4, sensor_stat5, sensor_stat6, sensor_stat7, sensor_stat8, ampstart_stat, amptotal_stat, volt_stat, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
+                (standard_jdate_str, standardname, model_input, brand_input, gas_input, durationtemp_input, intervaltemp_input, durationamperage_input, amperageiterations, tolerance_temp1, tolerance_temp2, tolerance_temp3, tolerance_temp4, tolerance_temp5, tolerance_temp6, tolerance_temp7, tolerance_temp8, tolerance_amptotal, tolerance_ampstart, tolerance_volt, sensor_stat1, sensor_stat2, sensor_stat3, sensor_stat4, sensor_stat5, sensor_stat6, sensor_stat7, sensor_stat8, ampstart_stat, amptotal_stat, volt_stat, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
                 average_temperature6, average_pressure_min, average_pressure_max, average_amptotal, average_ampstart, average_volt, average_temperature7, average_temperature8)
                 #for i in range(len(average_temperature1))
             ]
 
 
-
+        # print(standard_jdate_str)
             
-
-        # self.stopButton.setEnabled(False)
+        self.standardResultLabel.setText("پایان استاندارد ")
+        print("end test")
         self.fetchButton.setEnabled(True)
+        print("end test2")
+        self.stopButton.setEnabled(False)
+        print("end test3")
 
 
 
         if self.stop_flag == False:
             self.saveButton.setEnabled(True)
+
+
+        # self.fetch_done = QtCore.pyqtSignal()
+
+        # self.fetch_thread.fetch_done.emit()
+
+
     
 
-        
+    # @QtCore.pyqtSlot()
+    # def onFetchDone(self):
+    #     self.standardResultLabel.setText("Fetch completed")
+    #     self.stopButton.setEnabled(False)
+    #     self.fetchButton.setEnabled(True)
+    #     self.saveButton.setEnabled(True)
 
         
 
@@ -799,7 +833,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="127.0.0.1",
+            host="192.168.100.12",
             user="yekta",
             password="Yekta-5310",
             database="qc2"
@@ -821,7 +855,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
 
         # Define the SQL query to insert data into the table
-        insert_query = "INSERT INTO standard (standardname, model, brand, gas, testtime, intervaltemp, durationamperage, intervalamperage, tolerancetemp1, tolerancetemp2, tolerancetemp3, tolerancetemp4, tolerancetemp5, tolerancetemp6, tolerancepressuremin, tolerancepressuremax, toleranceampstart, toleranceamptotal, tolerancevolt, sensorstat1, sensorstat2, sensorstat3, sensorstat4, sensorstat5, sensorstat6, sensorstat7, sensorstat8, ampstartstat, amptotalstat, voltstat, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageamptotal, averageampstart, averagevolt, averagetemperature7, averagetemperature8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        insert_query = "INSERT INTO standard (standard_jdate, standard_name, model, brand, gas, temp_duration, temp_interval, amp_duration, amp_interval, tolerancetemp1, tolerancetemp2, tolerancetemp3, tolerancetemp4, tolerancetemp5, tolerancetemp6, tolerancepressuremin, tolerancepressuremax, toleranceampstart, toleranceamptotal, tolerancevolt, sensorstat1, sensorstat2, sensorstat3, sensorstat4, sensorstat5, sensorstat6, sensorstat7, sensorstat8, ampstartstat, amptotalstat, voltstat, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageamptotal, averageampstart, averagevolt, averagetemperature7, averagetemperature8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
         # # Prepare the data as a list of tuples
         # self.data = [
@@ -829,12 +863,24 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         #     average_temperature6, average_temperature7, average_temperature8, average_pressure_max, average_pressure_min)
         #     #for i in range(len(average_temperature1))
         # ]
+        try:
+            # Execute the SQL query to insert the data into the table
+            cursor.executemany(insert_query, self.data)
 
-        # Execute the SQL query to insert the data into the table
-        cursor.executemany(insert_query, self.data)
+            # Commit the changes to the database
+            db_connection.commit()
+            # self.saveButton.setEnabled(False)
+            self.standardResultLabel.setText("استاندارد ثبت شد")
 
-        # Commit the changes to the database
-        db_connection.commit()
+        except mysql.connector.IntegrityError as e:
+            
+            if e.errno == 1062:  # MySQL error code for duplicate key
+                print("Error: Duplicate standard_name. Choose a unique name.")
+                self.standardResultLabel.setText("نام استاندارد تکراری می باشد")
+            else:
+                print(f"Error: {e}")
+                self.standardResultLabel.setText(f"Error: {e}")
+
 
         # Close the cursor and database connection
         cursor.close()
@@ -858,50 +904,50 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         self.standard_list = retrieve_standardparam(selected_option)
         
         self.standardName_2.setText(str(selected_option + "_edited"))
-        self.modelDevice_2.setText(str(self.standard_list[2]))
-        self.companyName_2.setText(str(self.standard_list[3]))
-        self.gasType_2.setText(str(self.standard_list[4]))
+        self.modelDevice_2.setText(str(self.standard_list[3]))
+        self.companyName_2.setText(str(self.standard_list[4]))
+        self.gasType_2.setText(str(self.standard_list[5]))
 
-        self.durationTemp_2.setText(str(self.standard_list[5]))
-        self.intervalTemp_2.setText(str(self.standard_list[6]))
-        self.durationAmp_2.setText(str(self.standard_list[7]))
-        self.intervalAmp_2.setText(str(self.standard_list[8]))
+        self.durationTemp_2.setText(str(self.standard_list[6]))
+        self.intervalTemp_2.setText(str(self.standard_list[7]))
+        self.durationAmp_2.setText(str(self.standard_list[8]))
+        self.intervalAmp_2.setText(str(self.standard_list[9]))
 
-        self.toleranceTemp1_2.setValue(int(self.standard_list[9]))
-        self.toleranceTemp2_2.setValue(int(self.standard_list[10]))
-        self.toleranceTemp3_2.setValue(int(self.standard_list[11]))
-        self.toleranceTemp4_2.setValue(int(self.standard_list[12]))
-        self.toleranceTemp5_2.setValue(int(self.standard_list[13]))
-        self.toleranceTemp6_2.setValue(int(self.standard_list[14]))
-        self.toleranceTemp7_2.setValue(int(self.standard_list[15]))
-        self.toleranceTemp8_2.setValue(int(self.standard_list[16]))
-        self.toleranceAmpstart_2.setValue(int(self.standard_list[17]))
-        self.toleranceAmptotal_2.setValue(int(self.standard_list[18]))
-        self.toleranceVolt_2.setValue(int(self.standard_list[19]))
+        self.toleranceTemp1_2.setValue(int(self.standard_list[10]))
+        self.toleranceTemp2_2.setValue(int(self.standard_list[11]))
+        self.toleranceTemp3_2.setValue(int(self.standard_list[12]))
+        self.toleranceTemp4_2.setValue(int(self.standard_list[13]))
+        self.toleranceTemp5_2.setValue(int(self.standard_list[14]))
+        self.toleranceTemp6_2.setValue(int(self.standard_list[15]))
+        self.toleranceTemp7_2.setValue(int(self.standard_list[16]))
+        self.toleranceTemp8_2.setValue(int(self.standard_list[17]))
+        self.toleranceAmpstart_2.setValue(int(self.standard_list[18]))
+        self.toleranceAmptotal_2.setValue(int(self.standard_list[19]))
+        self.toleranceVolt_2.setValue(int(self.standard_list[20]))
 
-        self.checkTemp1_2.setChecked(bool(self.standard_list[20]))
-        self.checkTemp2_2.setChecked(bool(self.standard_list[21]))
-        self.checkTemp3_2.setChecked(bool(self.standard_list[22]))
-        self.checkTemp4_2.setChecked(bool(self.standard_list[23]))
-        self.checkTemp5_2.setChecked(bool(self.standard_list[24]))
-        self.checkTemp6_2.setChecked(bool(self.standard_list[25]))
-        self.checkTemp7_2.setChecked(bool(self.standard_list[26]))
-        self.checkTemp8_2.setChecked(bool(self.standard_list[27]))
-        self.checkAmpstart_2.setChecked(bool(self.standard_list[28]))
-        self.checkAmptotal_2.setChecked(bool(self.standard_list[29]))
-        self.checkVolt_2.setChecked(bool(self.standard_list[30]))
+        self.checkTemp1_2.setChecked(bool(self.standard_list[21]))
+        self.checkTemp2_2.setChecked(bool(self.standard_list[22]))
+        self.checkTemp3_2.setChecked(bool(self.standard_list[23]))
+        self.checkTemp4_2.setChecked(bool(self.standard_list[24]))
+        self.checkTemp5_2.setChecked(bool(self.standard_list[25]))
+        self.checkTemp6_2.setChecked(bool(self.standard_list[26]))
+        self.checkTemp7_2.setChecked(bool(self.standard_list[27]))
+        self.checkTemp8_2.setChecked(bool(self.standard_list[28]))
+        self.checkAmpstart_2.setChecked(bool(self.standard_list[29]))
+        self.checkAmptotal_2.setChecked(bool(self.standard_list[30]))
+        self.checkVolt_2.setChecked(bool(self.standard_list[31]))
 
-        self.avgTemp1.setText(str(self.standard_list[31]))
-        self.avgTemp2.setText(str(self.standard_list[32]))
-        self.avgTemp3.setText(str(self.standard_list[33]))
-        self.avgTemp4.setText(str(self.standard_list[34]))
-        self.avgTemp5.setText(str(self.standard_list[35]))
-        self.avgTemp6.setText(str(self.standard_list[36]))
-        self.avgTemp7.setText(str(self.standard_list[37]))
-        self.avgTemp8.setText(str(self.standard_list[38]))
-        self.avgAmptotal.setText(str(self.standard_list[39]))
-        self.avgAmpstart.setText(str(self.standard_list[40]))
-        self.avgVolt.setText(str(self.standard_list[41]))
+        self.avgTemp1.setText(str(self.standard_list[32]))
+        self.avgTemp2.setText(str(self.standard_list[33]))
+        self.avgTemp3.setText(str(self.standard_list[34]))
+        self.avgTemp4.setText(str(self.standard_list[35]))
+        self.avgTemp5.setText(str(self.standard_list[36]))
+        self.avgTemp6.setText(str(self.standard_list[37]))
+        self.avgTemp7.setText(str(self.standard_list[38]))
+        self.avgTemp8.setText(str(self.standard_list[39]))
+        self.avgAmptotal.setText(str(self.standard_list[40]))
+        self.avgAmpstart.setText(str(self.standard_list[41]))
+        self.avgVolt.setText(str(self.standard_list[42]))
 
 
         print("Selected option:", self.standard_list)
@@ -1021,7 +1067,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         
 
         # Define the SQL query to insert data into the table
-        edit_query = "INSERT INTO standard (standardname, testtime, intervaltemp, durationamperage, intervalamperage, sensorstat1, sensorstat2, sensorstat3, sensorstat4, sensorstat5, sensorstat6, sensorstat7, sensorstat8, ampstartstat, amptotalstat, voltstat, tolerancetemp1, tolerancetemp2, tolerancetemp3, tolerancetemp4, tolerancetemp5, tolerancetemp6, tolerancepressuremin, tolerancepressuremax, toleranceampstart, toleranceamptotal, tolerancevolt, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageampstart, averageamptotal, averagevolt) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        edit_query = "INSERT INTO standard (standard_name, temp_duration, temp_interval, amp_duration, amp_interval, sensorstat1, sensorstat2, sensorstat3, sensorstat4, sensorstat5, sensorstat6, sensorstat7, sensorstat8, ampstartstat, amptotalstat, voltstat, tolerancetemp1, tolerancetemp2, tolerancetemp3, tolerancetemp4, tolerancetemp5, tolerancetemp6, tolerancepressuremin, tolerancepressuremax, toleranceampstart, toleranceamptotal, tolerancevolt, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageampstart, averageamptotal, averagevolt) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
 
 
@@ -1155,7 +1201,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
         standard_name = self.comboStandard.currentText()
 
         # Prepare the SQL query with placeholders
-        delete_query = "DELETE FROM standard WHERE standardname = %s"
+        delete_query = "DELETE FROM standard WHERE standard_name = %s"
 
         # Execute the query
         cursor.execute(delete_query, (standard_name,))

@@ -5,7 +5,7 @@ class MysqlDb:
     connection = None
     def __init__(self) -> None:
         self.connection = mysql.connector.connect(
-            host="127.0.0.1",
+            host="192.168.100.12",
             user="yekta",
             password="Yekta-5310",
             database="qc2"

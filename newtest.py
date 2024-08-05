@@ -1,6 +1,7 @@
 
 import os
 import sys
+from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtCore, uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QColor
@@ -31,6 +32,7 @@ from databasefile import *
 
 
 class NewTestPage(QMainWindow, Ui_NewTestPage):
+    show_warning_signal = pyqtSignal(str)
     def __init__(self):
         super().__init__()
 
@@ -43,6 +45,8 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         #uic.loadUi(os.path.join(os.path.dirname(os.path.abspath(__file__)), "qml/arya/newtest.ui"), self)
 
 
+        self.tableAverage.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableCompare.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
 
         # Find the QWidget objects named "plottemp1" and "plottemp2"
@@ -176,9 +180,13 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         ### define what happend after selevting item in dropdown
         self.comboStandard.currentIndexChanged.connect(self.handle_dropdown_change)
+        self.comboStandard.currentIndexChanged.connect(self.on_text_changed)
 
 
+        self.motorId.textChanged.connect(self.on_text_changed)
 
+        
+        self.show_warning_signal.connect(self.show_warning_dialog)
 
 
 
@@ -207,7 +215,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         self.fetchButton.clicked.connect(self.start_fetching)
         self.stopButton.clicked.connect(self.stop_fetching)
-        self.saveButton.clicked.connect(self.insert_test)
+        # self.saveButton.clicked.connect(self.insert_test)
         # self.printButton.clicked.connect(self.print_label)
 
 
@@ -216,7 +224,9 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
 
-
+    @QtCore.pyqtSlot()
+    def on_text_changed(self):
+        self.fetchButton.setEnabled(bool(self.motorId.text()) and bool(self.comboStandard.currentText()) if self.comboStandard else True)
 
 
     #### define what happend after selevting item in dropdown
@@ -224,26 +234,26 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         selected_option = self.comboStandard.currentText()
         self.standard_list = retrieve_standardparam(selected_option)
         
-        self.gasType.setText(str(self.standard_list[4]))
+        self.gasType.setText(str(self.standard_list[5]))
 
-        self.durationTemp.setText(str(self.standard_list[5]))
-        self.intervalTemp.setText(str(self.standard_list[6]))
-        self.durationAmp.setText(str(self.standard_list[7]))
-        self.intervalAmp.setText(str(self.standard_list[8]))
+        self.durationTemp.setText(str(self.standard_list[6]))
+        self.intervalTemp.setText(str(self.standard_list[7]))
+        self.durationAmp.setText(str(self.standard_list[8]))
+        self.intervalAmp.setText(str(self.standard_list[9]))
 
         
         
-        self.checkTemp1.setChecked(bool(self.standard_list[20]))
-        self.checkTemp2.setChecked(bool(self.standard_list[21]))
-        self.checkTemp3.setChecked(bool(self.standard_list[22]))
-        self.checkTemp4.setChecked(bool(self.standard_list[23]))
-        self.checkTemp5.setChecked(bool(self.standard_list[24]))
-        self.checkTemp6.setChecked(bool(self.standard_list[25]))
-        self.checkTemp7.setChecked(bool(self.standard_list[26]))
-        self.checkTemp8.setChecked(bool(self.standard_list[27]))
-        self.checkAmpstart.setChecked(bool(self.standard_list[28]))
-        self.checkAmptotal.setChecked(bool(self.standard_list[29]))
-        self.checkVolt.setChecked(bool(self.standard_list[30]))
+        self.checkTemp1.setChecked(bool(self.standard_list[21]))
+        self.checkTemp2.setChecked(bool(self.standard_list[22]))
+        self.checkTemp3.setChecked(bool(self.standard_list[23]))
+        self.checkTemp4.setChecked(bool(self.standard_list[24]))
+        self.checkTemp5.setChecked(bool(self.standard_list[25]))
+        self.checkTemp6.setChecked(bool(self.standard_list[26]))
+        self.checkTemp7.setChecked(bool(self.standard_list[27]))
+        self.checkTemp8.setChecked(bool(self.standard_list[28]))
+        self.checkAmpstart.setChecked(bool(self.standard_list[29]))
+        self.checkAmptotal.setChecked(bool(self.standard_list[30]))
+        self.checkVolt.setChecked(bool(self.standard_list[31]))
         print("Selected option:", self.standard_list)
         print(len(self.standard_list))
         self.calculate_tolerance()
@@ -255,6 +265,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
     def calculate_tolerance(self):
         standard_tolerance = self.standard_list[9:20]
+        self.standard_value = self.standard_list[31:42]
         self.max_value_list = []
         self.min_value_list = []
         for i, j in zip(range(31, 42), range(0, 11)):
@@ -266,7 +277,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             self.max_value_list.append(max_value)
 
 
-        print(self.min_value_list)
+        print(self.standard_value)
 
         # self.tableCompare.setItem(1, 0, QTableWidgetItem(f"{self.min_value_list[0]:.2f}-{self.max_value_list[0]:.2f}°C"))
         # self.tableCompare.setItem(1, 1, QTableWidgetItem(f"{self.min_value_list[1]:.2f}-{self.max_value_list[1]:.2f}°C"))
@@ -283,10 +294,16 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         # self.tableCompare.setItem(1, 10, QTableWidgetItem(f"{self.min_value_list[10]:.2f}-{self.max_value_list[10]:.2f}V"))
 
         units = ['°C'] * 6 + ['psi', 'psi', 'A', 'A', 'V']
-        self.combined_values = [f"{self.min_value_list[i]:.2f}-{self.max_value_list[i]:.2f}{units[i]}" for i in range(11)]
+        
+        # self.combined_values = [f"{self.min_value_list[i]:.2f}-{self.max_value_list[i]:.2f}{units[i]}" for i in range(11)]
+
+        self.combined_values = [f"{self.standard_value[i]:.2f}{units[i]}" for i in range(11)]
 
         for i in range(11):
             self.tableCompare.setItem(1, i, QTableWidgetItem(self.combined_values[i]))
+
+
+
 
         
         
@@ -325,8 +342,18 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             self.testResult.setText(f"لطفا با پشتیبانی تماس بگیرید")
 
 
+
+    def show_warning_dialog(self, message):
+        QMessageBox.warning(self, "خطا", message)
+
+
+
+
+
+
     def stop_fetching(self):
         self.stop_flag = True
+        self.testResult.clear()
         
         
     
@@ -376,6 +403,8 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         motorid = (self.motorId.text())
         
 
+
+
         start_timeTotal = datetime.datetime.now().strftime("%H:%M:%S")
         self.startTime.setText(str(start_timeTotal))
 
@@ -396,36 +425,46 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
     
-    
-        # Create an instance of the Instrument class
-        instrument = minimalmodbus.Instrument(port_input, slaveaddress=3)
+        try:
+            # Create an instance of the Instrument class
+            instrument = minimalmodbus.Instrument(port_input, slaveaddress=3)
 
-        # Optionally, configure the serial communication parameters if needed
-        instrument.serial.baudrate = 38400
-        instrument.serial.bytesize = 8
-        instrument.serial.parity = minimalmodbus.serial.PARITY_NONE
-        instrument.serial.stopbits = 1
+            # Optionally, configure the serial communication parameters if needed
+            instrument.serial.baudrate = 38400
+            instrument.serial.bytesize = 8
+            instrument.serial.parity = minimalmodbus.serial.PARITY_NONE
+            instrument.serial.stopbits = 1
 
-        #Set the output value to True or False
-        output_value = True
+            #Set the output value to True or False
+            output_value = True
 
-        # Write the digital output value to the RS485 sensor
-        # instrument.slaveaddress = 3
-        register_address = 192
-        instrument.write_bit(register_address, output_value,functioncode=5)
-        register_address = 0
-        input_value = instrument.read_bit(register_address, functioncode=1)
-        print("Digital Input 01 Value:", input_value)
+            # Write the digital output value to the RS485 sensor
+            # instrument.slaveaddress = 3
+            register_address = 192
+            instrument.write_bit(register_address, output_value,functioncode=5)
+            register_address = 0
+            input_value = instrument.read_bit(register_address, functioncode=1)
+            print("Digital Input 01 Value:", input_value)
 
-        register_address = 193
-        instrument.write_bit(register_address, output_value,functioncode=5)
-        register_address = 1
-        input_value = instrument.read_bit(register_address, functioncode=1)
-        print("Digital Input 02 Value:", input_value)
+            register_address = 193
+            instrument.write_bit(register_address, output_value,functioncode=5)
+            register_address = 1
+            input_value = instrument.read_bit(register_address, functioncode=1)
+            print("Digital Input 02 Value:", input_value)
+
+        except Exception as e:
+            # self.stop_flag = True
+            print(f"Exception occurred: {e}")
+            # Emit the signal instead of calling the function directly
+            self.show_warning_signal.emit("پورت اشتباه,")
+            
+            
+            # Add error handling or recovery mechanism here
+
 
         # Calculate the number of iterations based on the duration and interval
         intervalamperage_input = float(durationamperage_input/amperageiterations)
-        instrument = minimalmodbus.Instrument(port_input, slaveaddress=1)
+        instrumentamp = minimalmodbus.Instrument(port_input, slaveaddress=1)
        
         #number_of_registers = 1  # Replace with the appropriate number of registers for amperage
 
@@ -437,11 +476,12 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         #wait for 1 amper
         self.testResult.setText("انتظار جریان تا 1 آمپر")
         self.testResult.setStyleSheet("background-color: rgb(240, 240, 240);\nborder: 1px solid black;")
-        ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
-        while ampstart < 0:
-            ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
-            if self.stop_flag:
-                break
+        ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
+        # while ampstart < 1:
+        #     ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
+        #     if self.stop_flag:
+        #         break
+
         self.testResult.setText("دریافت جریان اولیه")
         # Fetch sensor amperage data for the specified duration and iterations
         end_timeAmp = time.perf_counter() + durationamperage_input
@@ -454,7 +494,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
                 break
 
             if self.checkAmpstart.isChecked():
-                ampstart = instrument.read_float(registeraddress=32, functioncode=3) * 5
+                ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
                 self.tableAverage.setItem(0, 9, QTableWidgetItem(f"{ampstart:.2f}A"))
                 self.ampstart_list.append(ampstart)
                 average_ampstart = sum(self.ampstart_list) / len(self.ampstart_list)
@@ -467,7 +507,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
             
             if self.checkVolt.isChecked():
-                volt = instrument.read_float(registeraddress=26, functioncode=3)
+                volt = instrumentamp.read_float(registeraddress=26, functioncode=3)
                 self.tableAverage.setItem(0, 10, QTableWidgetItem(f"{volt:.2f}V"))
                 self.volt_list.append(volt)
                 average_volt = sum(self.volt_list) / len(self.volt_list)
@@ -529,7 +569,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         # Calculate the number of iterations based on the duration and interval
         tempiterations = int(durationtemp_input / intervaltemp_input)
         instrument = minimalmodbus.Instrument(port_input, slaveaddress=2)
-        instrumentamp = minimalmodbus.Instrument(port_input, slaveaddress=1)
+        
 
 
         self.temperature1_list = []  # Reset the temperature1_list
@@ -750,22 +790,29 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             #call the compare function
             self.compare()
 
+            test_jdate = jdatetime.now()
+            test_jdate_str = test_jdate.strftime('%Y%m%d')
 
             # Prepare the data as a list of tuples
             self.data = [
-                    (motorid, self.comboStandard, self.standard_list[4], durationtemp_input, intervaltemp_input, durationamperage_input, amperageiterations, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
-                    average_temperature6, average_pressure_min, average_pressure_max, average_ampstart, average_amptotal, average_volt, average_temperature7, average_temperature8, self.combined_values)
+                    (test_jdate_str, motorid, self.comboStandard.currentText(), self.result, durationtemp_input, intervaltemp_input, durationamperage_input, amperageiterations, self.standard_list[4], average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
+                    average_temperature6, average_pressure_min, average_pressure_max, average_amptotal, average_ampstart, average_volt, average_temperature7, average_temperature8)
                     #for i in range(len(average_temperature1))
                 ]
+            
+            self.insert_test()
+            time.sleep(1)
+            self.testResult.setText("تست ثبت شد")
+            # self.testResult.setStyleSheet("background-color: rgb(0, 0, 255);\nborder: 1px solid black;")
 
         
         self.fetchButton.setEnabled(True)
-        # self.stopButton.setEnabled(False)
+        self.stopButton.setEnabled(False)
 
 
 
-        if self.stop_flag == False:
-            self.saveButton.setEnabled(True)
+        # if self.stop_flag == False:
+        #     self.saveButton.setEnabled(True)
     
 
 
@@ -852,6 +899,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             self.testResult.setStyleSheet("background-color: rgb(0, 255, 0);\nborder: 1px solid black;")
             
         else:
+            self.result = False
             self.testResult.setText("QC Reject")
             self.testResult.setStyleSheet("background-color: rgb(255, 0, 0);\nborder: 1px solid black;")
             
@@ -923,7 +971,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
     def database_info(self):
         return mysql.connector.connect(
-            host="127.0.0.1",
+            host="192.168.100.12",
             user="yekta",
             password="Yekta-5310",
             database="qc2"
@@ -943,7 +991,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
         # Define the SQL query to insert data into the table
-        insert_query = "INSERT INTO test (serial, standardname, gas, testduration, intervaltemp, durationamperage, intervalamperage, testtime, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageampstart, averageamptotal, averagevolt, averagetemperature7, averagetemperature8, standardrange, result) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        insert_query = "INSERT INTO test (test_jdate, serial, standard_name, qc_result, temp_duration, temp_interval, amp_duration, amp_interval, gas, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageamptotal, averageampstart, averagevolt, averagetemperature7, averagetemperature8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
 
 
@@ -956,7 +1004,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         # Close the cursor and database connection
         cursor.close()
         db_connection.close()
-        self.saveButton.setEnabled(False)
+        # self.saveButton.setEnabled(False)
 
 
         

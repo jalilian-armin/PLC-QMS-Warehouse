@@ -7,7 +7,7 @@ import mysql.connector
 def retrieve_standardss():
    
     connection = mysql.connector.connect(
-        host="127.0.0.1",
+        host="192.168.100.12",
         user="yekta",
         password="Yekta-5310",
         database="qc2"
@@ -16,7 +16,7 @@ def retrieve_standardss():
     cursor = connection.cursor()
 
 
-    query = "SELECT standardname FROM standard"
+    query = "SELECT standard_name FROM standard"
     cursor.execute(query)
     items = [row[0] for row in cursor.fetchall()]
 
@@ -35,7 +35,7 @@ def retrieve_standardparam(selected_name):
 
 
     connection = mysql.connector.connect(
-    host="127.0.0.1",
+    host="192.168.100.12",
     user="yekta",
     password="Yekta-5310",
     database="qc2"
@@ -43,8 +43,8 @@ def retrieve_standardparam(selected_name):
 
     cursor = connection.cursor()
 
-    query = f"SELECT * FROM standard WHERE standardname = %s"
-    # query = f"SELECT testtime, intervaltemp, durationamperage, intervalamperage, gastype, tolerancepercent, sensorstat1, sensorstat2, sensorstat3, sensorstat4, sensorstat5, sensorstat6, sensorstat7, sensorstat8, ampstat, voltstat, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageamp, averagevolt FROM standard WHERE standardname = %s"
+    query = f"SELECT * FROM standard WHERE standard_name = %s"
+    # query = f"SELECT testtime, intervaltemp, durationamperage, intervalamperage, gastype, tolerancepercent, sensorstat1, sensorstat2, sensorstat3, sensorstat4, sensorstat5, sensorstat6, sensorstat7, sensorstat8, ampstat, voltstat, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageamp, averagevolt FROM standard WHERE standard_name = %s"
     cursor.execute(query, (selected_name,))
     result = cursor.fetchone()
 

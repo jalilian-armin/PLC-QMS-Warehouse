@@ -26,81 +26,81 @@ from classes.Auth import Auth
 
 
 
-def create_tables():
-    connection = mysql.connector.connect(
-        host="127.0.0.1",
-        user="yekta",
-        password="Yekta-5310",
-        database="qc2"
-        )
-    cursor = connection.cursor()
+# def create_tables():
+#     connection = mysql.connector.connect(
+#         host="192.168.100.12",
+#         user="yekta",
+#         password="Yekta-5310",
+#         database="qc2"
+#         )
+#     cursor = connection.cursor()
 
-    # Define your SQL statements to create the tables
-
-
-    create_table_standard = '''
-        CREATE TABLE IF NOT EXISTS standard (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            standardname VARCHAR(50),
-            model VARCHAR(50),
-            brand VARCHAR(50),
-            gas VARCHAR(50),
-            testtime INT,
-            intervaltemp INT,
-            durationamperage INT,
-            intervalamperage INT,
-            tolerancetemp1 INT,
-            tolerancetemp2 INT,
-            tolerancetemp3 INT,
-            tolerancetemp4 INT,
-            tolerancetemp5 INT,
-            tolerancetemp6 INT,
-            tolerancepressuremin INT,
-            tolerancepressuremax INT,
-            toleranceampstart INT,
-            toleranceamptotal INT,
-            tolerancevolt INT,
-            sensorstat1 TINYINT(1),
-            sensorstat2 TINYINT(1),
-            sensorstat3 TINYINT(1),
-            sensorstat4 TINYINT(1),
-            sensorstat5 TINYINT(1),
-            sensorstat6 TINYINT(1),
-            sensorstat7 TINYINT(1),
-            sensorstat8 TINYINT(1),
-            ampstartstat TINYINT(1),
-            amptotalstat TINYINT(1),
-            voltstat TINYINT(1),
-            averagetemperature1 FLOAT(10, 2),
-            averagetemperature2 FLOAT(10, 2),
-            averagetemperature3 FLOAT(10, 2),
-            averagetemperature4 FLOAT(10, 2),
-            averagetemperature5 FLOAT(10, 2),
-            averagetemperature6 FLOAT(10, 2),
-            averagepressure_min FLOAT(10, 2),
-            averagepressure_max FLOAT(10, 2),
-            averageampstart FLOAT(10, 2),
-            averageamptotal FLOAT(10, 2),
-            averagevolt FLOAT(10, 2),
-            averagetemperature7 FLOAT(10, 2),
-            averagetemperature8 FLOAT(10, 2)
-
-        )
-    '''
+#     # Define your SQL statements to create the tables
 
 
+#     create_table_standard = '''
+#         CREATE TABLE IF NOT EXISTS standard (
+#             id INT AUTO_INCREMENT PRIMARY KEY,
+#             standard_name VARCHAR(50),
+#             model VARCHAR(50),
+#             brand VARCHAR(50),
+#             gas VARCHAR(50),
+#             testtime INT,
+#             intervaltemp INT,
+#             durationamperage INT,
+#             intervalamperage INT,
+#             tolerancetemp1 INT,
+#             tolerancetemp2 INT,
+#             tolerancetemp3 INT,
+#             tolerancetemp4 INT,
+#             tolerancetemp5 INT,
+#             tolerancetemp6 INT,
+#             tolerancepressuremin INT,
+#             tolerancepressuremax INT,
+#             toleranceampstart INT,
+#             toleranceamptotal INT,
+#             tolerancevolt INT,
+#             sensorstat1 TINYINT(1),
+#             sensorstat2 TINYINT(1),
+#             sensorstat3 TINYINT(1),
+#             sensorstat4 TINYINT(1),
+#             sensorstat5 TINYINT(1),
+#             sensorstat6 TINYINT(1),
+#             sensorstat7 TINYINT(1),
+#             sensorstat8 TINYINT(1),
+#             ampstartstat TINYINT(1),
+#             amptotalstat TINYINT(1),
+#             voltstat TINYINT(1),
+#             averagetemperature1 FLOAT(10, 2),
+#             averagetemperature2 FLOAT(10, 2),
+#             averagetemperature3 FLOAT(10, 2),
+#             averagetemperature4 FLOAT(10, 2),
+#             averagetemperature5 FLOAT(10, 2),
+#             averagetemperature6 FLOAT(10, 2),
+#             averagepressure_min FLOAT(10, 2),
+#             averagepressure_max FLOAT(10, 2),
+#             averageampstart FLOAT(10, 2),
+#             averageamptotal FLOAT(10, 2),
+#             averagevolt FLOAT(10, 2),
+#             averagetemperature7 FLOAT(10, 2),
+#             averagetemperature8 FLOAT(10, 2)
 
-    # table1_sql = "CREATE TABLE IF NOT EXISTS table1 (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50))"
-    # table2_sql = "CREATE TABLE IF NOT EXISTS table2 (id INT PRIMARY KEY AUTO_INCREMENT, age INT)"
+#         )
+#     '''
 
-    # Execute the SQL statements
-    cursor.execute(create_table_standard)
-    # cursor.execute(table2_sql)
 
-    # Commit the changes and close the cursor and connection
-    connection.commit()
-    cursor.close()
-    connection.close()
+
+#     # table1_sql = "CREATE TABLE IF NOT EXISTS table1 (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50))"
+#     # table2_sql = "CREATE TABLE IF NOT EXISTS table2 (id INT PRIMARY KEY AUTO_INCREMENT, age INT)"
+
+#     # Execute the SQL statements
+#     cursor.execute(create_table_standard)
+#     # cursor.execute(table2_sql)
+
+#     # Commit the changes and close the cursor and connection
+#     connection.commit()
+#     cursor.close()
+#     connection.close()
 
 
 
@@ -195,7 +195,7 @@ class MainApp(QMainWindow):
 
 
         # self.ui.Pack_Btn.clicked.connect(self.show_report)
-        self.ui.Pack_Btn_Text.clicked.connect(self.show_assembly)
+        #self.ui.Pack_Btn_Text.clicked.connect(self.show_assembly)
 
         # self.ui.Logout_Btn.clicked.connect(sys.exit)
         self.ui.Logout_Btn_Text.clicked.connect(sys.exit)
@@ -246,7 +246,7 @@ class MainApp(QMainWindow):
 
 
 if __name__ == '__main__':
-    create_tables()
+    # create_tables()
     app = QApplication(sys.argv)
     main_app = MainApp()
     main_app.show()

@@ -281,19 +281,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         print(self.standard_value)
 
-        # self.tableCompare.setItem(1, 0, QTableWidgetItem(f"{self.min_value_list[0]:.2f}-{self.max_value_list[0]:.2f}°C"))
-        # self.tableCompare.setItem(1, 1, QTableWidgetItem(f"{self.min_value_list[1]:.2f}-{self.max_value_list[1]:.2f}°C"))
-        # self.tableCompare.setItem(1, 2, QTableWidgetItem(f"{self.min_value_list[2]:.2f}-{self.max_value_list[2]:.2f}°C"))
-        # self.tableCompare.setItem(1, 3, QTableWidgetItem(f"{self.min_value_list[3]:.2f}-{self.max_value_list[3]:.2f}°C"))
-        # self.tableCompare.setItem(1, 4, QTableWidgetItem(f"{self.min_value_list[4]:.2f}-{self.max_value_list[4]:.2f}°C"))
-        # self.tableCompare.setItem(1, 5, QTableWidgetItem(f"{self.min_value_list[5]:.2f}-{self.max_value_list[5]:.2f}°C"))
-        # # self.tableCompare.setItem(0, 6, QTableWidgetItem(f"{self.min_value_list[]:.2f}-{self.max_value_list[]:.2f}°C"))
-        # # self.tableCompare.setItem(0, 7, QTableWidgetItem(f"{self.min_value_list[]:.2f}-{self.max_value_list[]:.2f}°C"))
-        # self.tableCompare.setItem(1, 6, QTableWidgetItem(f"{self.min_value_list[6]:.2f}-{self.max_value_list[6]:.2f}psi"))
-        # self.tableCompare.setItem(1, 7, QTableWidgetItem(f"{self.min_value_list[7]:.2f}-{self.max_value_list[7]:.2f}psi"))
-        # self.tableCompare.setItem(1, 8, QTableWidgetItem(f"{self.min_value_list[8]:.2f}-{self.max_value_list[8]:.2f}A"))
-        # self.tableCompare.setItem(1, 9, QTableWidgetItem(f"{self.min_value_list[9]:.2f}-{self.max_value_list[9]:.2f}A"))
-        # self.tableCompare.setItem(1, 10, QTableWidgetItem(f"{self.min_value_list[10]:.2f}-{self.max_value_list[10]:.2f}V"))
+
 
         units = ['°C'] * 6 + ['psi', 'psi', 'A', 'A', 'V']
         

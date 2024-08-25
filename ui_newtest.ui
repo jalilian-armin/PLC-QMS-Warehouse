@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1236</width>
+    <width>1394</width>
     <height>859</height>
    </rect>
   </property>
@@ -18,334 +18,13 @@
     <item>
      <widget class="QFrame" name="Test_Properties">
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="38">
-        <widget class="QLabel" name="durationAmp">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(240, 240, 240);
-border: 1px solid black;</string>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="43">
-        <widget class="QCheckBox" name="checkTemp1">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="text">
-          <string>سنسور دما 1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="40">
-        <widget class="QLabel" name="intervalTemp">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(240, 240, 240);
-border: 1px solid black;</string>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="34">
-        <widget class="QLabel" name="label_21">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>زمان شروع تست</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="43">
-        <widget class="QLabel" name="label_12">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>زمان تست(ثانیه):</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="40">
-        <widget class="QCheckBox" name="checkTemp4">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="text">
-          <string>سنسور دما 4</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="42">
-        <widget class="QLabel" name="durationTemp">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(240, 240, 240);
-border: 1px solid black;</string>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="37">
-        <widget class="QLabel" name="label_6">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="text">
-          <string>نوع گاز</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="36">
-        <widget class="QCheckBox" name="checkTemp8">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="text">
-          <string>max سنسور فشار</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="checkVolt">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>سنسور ولتاژ</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="39">
-        <widget class="QLabel" name="label_14">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>استاندارد:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="36">
-        <widget class="QLabel" name="intervalAmp">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(240, 240, 240);
-border: 1px solid black;</string>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="42">
-        <widget class="QComboBox" name="widgetPort"/>
-       </item>
-       <item row="1" column="34">
-        <widget class="QLabel" name="label_7">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="text">
-          <string>زمان پایان تست</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="startTime">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(240, 240, 240);
-border: 1px solid black;</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="37">
-        <widget class="QLabel" name="label_16">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>تعداد جریان</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="36">
-        <widget class="QLabel" name="gasType">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(240, 240, 240);
-border: 1px solid black;</string>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="43">
-        <widget class="QLabel" name="label_17">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>پورت:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="37">
-        <widget class="QCheckBox" name="checkTemp7">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="text">
-          <string>min سنسور فشار</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="40">
         <widget class="QLineEdit" name="motorId">
          <property name="enabled">
           <bool>true</bool>
@@ -365,7 +44,7 @@ border: 1px solid black;</string>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>20</height>
+           <height>30</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -374,174 +53,56 @@ border: 1px solid black;</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="39">
-        <widget class="QCheckBox" name="checkTemp5">
+       <item row="0" column="40">
+        <widget class="QLabel" name="label_6">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="text">
+          <string>نوع گاز:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="35">
+        <widget class="QPushButton" name="saveButton">
          <property name="enabled">
           <bool>false</bool>
          </property>
          <property name="font">
           <font>
            <family>IRANSansWeb(FaNum)</family>
+           <bold>true</bold>
           </font>
          </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
          <property name="text">
-          <string>سنسور دما 5</string>
+          <string>ثبت</string>
+         </property>
+         <property name="icon">
+          <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
          </property>
         </widget>
        </item>
-       <item row="0" column="38">
-        <widget class="QComboBox" name="widgetStandard"/>
-       </item>
-       <item row="2" column="41">
-        <widget class="QCheckBox" name="checkTemp3">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
+       <item row="1" column="44">
+        <widget class="QLabel" name="label_7">
          <property name="font">
           <font>
            <family>IRANSansWeb(FaNum)</family>
           </font>
          </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
          <property name="text">
-          <string>سنسور دما 3</string>
+          <string>زمان پایان تست:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="2" column="34">
-        <widget class="QCheckBox" name="checkAmptotal">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>جریان کل</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="43">
-        <widget class="QLabel" name="label_20">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;وضعیت تست&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="endTime">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(240, 240, 240);
-border: 1px solid black;</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="41">
-        <widget class="QLabel" name="label_13">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>تناوب سنسور(ثانیه):</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="39">
-        <widget class="QLabel" name="label_18">
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="locale">
-          <locale language="Persian" country="Iran"/>
-         </property>
-         <property name="text">
-          <string>زمان جریان(ثانیه):</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="42">
-        <widget class="QCheckBox" name="checkTemp2">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="text">
-          <string>سنسور دما 2</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="37" colspan="6">
-        <widget class="QLabel" name="testResult">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(240, 240, 240);
-border: 1px solid black;</string>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="38">
-        <widget class="QCheckBox" name="checkTemp6">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <family>IRANSansWeb(FaNum)</family>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
-         </property>
-         <property name="text">
-          <string>سنسور دما 6</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="41">
+       <item row="0" column="44">
         <widget class="QLabel" name="label_19">
          <property name="font">
           <font>
@@ -554,42 +115,167 @@ border: 1px solid black;</string>
          <property name="text">
           <string>سریال دستگاه:</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         </property>
         </widget>
        </item>
-       <item row="2" column="35">
-        <widget class="QCheckBox" name="checkAmpstart">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
+       <item row="0" column="36">
+        <widget class="QLabel" name="label_12">
          <property name="font">
           <font>
            <family>IRANSansWeb(FaNum)</family>
           </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::RightToLeft</enum>
          </property>
          <property name="locale">
           <locale language="Persian" country="Iran"/>
          </property>
          <property name="text">
-          <string>جریان شروع</string>
+          <string>زمان تست (دقیقه):</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="3" column="36">
-        <widget class="QPushButton" name="fetchButton">
+       <item row="0" column="45">
+        <widget class="QComboBox" name="widgetPort"/>
+       </item>
+       <item row="0" column="47">
+        <widget class="QLabel" name="label_17">
          <property name="font">
           <font>
            <family>IRANSansWeb(FaNum)</family>
           </font>
          </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
          <property name="text">
-          <string>شروع تست</string>
+          <string>پورت:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="3" column="35">
+       <item row="1" column="45">
+        <widget class="QLabel" name="startTime">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(240, 240, 240);
+border: 1px solid black;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="39">
+        <widget class="QLabel" name="gasType">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(240, 240, 240);
+border: 1px solid black;</string>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="38">
+        <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>نوع تست:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="43">
+        <widget class="QLabel" name="endTime">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(240, 240, 240);
+border: 1px solid black;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="42">
+        <widget class="QLabel" name="label_20">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LayoutDirection::RightToLeft</enum>
+         </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;:وضعیت تست&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="41">
+        <widget class="QComboBox" name="widgetModel"/>
+       </item>
+       <item row="0" column="42">
+        <widget class="QLabel" name="label_14">
+         <property name="font">
+          <font>
+           <family>IRANSansWeb(FaNum)</family>
+          </font>
+         </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
+         <property name="text">
+          <string>نوع دستگاه:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="36">
         <widget class="QPushButton" name="stopButton">
          <property name="enabled">
           <bool>false</bool>
@@ -597,40 +283,97 @@ border: 1px solid black;</string>
          <property name="font">
           <font>
            <family>IRANSansWeb(FaNum)</family>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
-          <string>توقف تست</string>
+          <string>توقف</string>
+         </property>
+         <property name="icon">
+          <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>15</width>
+           <height>15</height>
+          </size>
          </property>
         </widget>
        </item>
-       <item row="3" column="34">
-        <widget class="QPushButton" name="saveButton">
-         <property name="enabled">
-          <bool>false</bool>
+       <item row="0" column="35">
+        <widget class="QLabel" name="durationTemp">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(240, 240, 240);
+border: 1px solid black;</string>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="47">
+        <widget class="QLabel" name="label_21">
          <property name="font">
           <font>
            <family>IRANSansWeb(FaNum)</family>
           </font>
          </property>
+         <property name="locale">
+          <locale language="Persian" country="Iran"/>
+         </property>
          <property name="text">
-          <string>ثبت تست</string>
+          <string>زمان شروع تست:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="printButton">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
+       <item row="0" column="37">
+        <widget class="QComboBox" name="widgetTestType"/>
+       </item>
+       <item row="1" column="37">
+        <widget class="QPushButton" name="fetchButton">
          <property name="font">
           <font>
            <family>IRANSansWeb(FaNum)</family>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
-          <string>چاپ بارکد</string>
+          <string>شروع</string>
+         </property>
+         <property name="icon">
+          <iconset theme="QIcon::ThemeIcon::MediaPlaybackStart"/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="38" colspan="4">
+        <widget class="QLabel" name="testResult">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(240, 240, 240);
+border: 1px solid black;</string>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -641,21 +384,23 @@ border: 1px solid black;</string>
      <widget class="QTabWidget" name="tabWidget">
       <property name="font">
        <font>
+        <family>IRANSansWeb(FaNum)</family>
         <pointsize>8</pointsize>
        </font>
       </property>
       <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
+       <enum>Qt::LayoutDirection::RightToLeft</enum>
       </property>
       <property name="locale">
        <locale language="Persian" country="Iran"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabTablePlot">
        <property name="font">
         <font>
+         <family>IRANSansWeb(FaNum)</family>
          <pointsize>8</pointsize>
         </font>
        </property>
@@ -679,7 +424,7 @@ border: 1px solid black;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1180</width>
+             <width>1325</width>
              <height>2000</height>
             </rect>
            </property>
@@ -711,10 +456,10 @@ border: 1px solid black;</string>
                <string notr="true"/>
               </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
              </widget>
             </item>
@@ -750,7 +495,7 @@ border: 1px solid black;</string>
            </font>
           </property>
           <property name="layoutDirection">
-           <enum>Qt::RightToLeft</enum>
+           <enum>Qt::LayoutDirection::RightToLeft</enum>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
@@ -759,16 +504,16 @@ border: 1px solid black;</string>
            <locale language="Persian" country="Iran"/>
           </property>
           <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
           </property>
           <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
           </property>
           <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+           <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
           </property>
           <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
+           <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
           </property>
           <property name="sortingEnabled">
            <bool>true</bool>
@@ -797,52 +542,52 @@ border: 1px solid black;</string>
           </row>
           <column>
            <property name="text">
-            <string>دما 1</string>
+            <string>دمای محیط 1</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>دما 2</string>
+            <string>دمای محیط 2</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>دما 3</string>
+            <string>دمای خروجی 1</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>دما 4</string>
+            <string>دمای خروجی 2</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>دما 5</string>
+            <string>دمای لوله ورودی</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>دما 6</string>
+            <string>دمای لوله خروجی</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>min فشار</string>
+            <string>فشار لوله ورودی</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>max فشار</string>
+            <string>فشار لوله خروجی</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>جریان کل</string>
+            <string>جریان</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>جریان شروع</string>
+            <string>وات مصرفی</string>
            </property>
           </column>
           <column>
@@ -853,136 +598,6 @@ border: 1px solid black;</string>
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QTableWidget" name="tableCompare">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>130</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>IRANSansWeb(FaNum)</family>
-            <pointsize>8</pointsize>
-           </font>
-          </property>
-          <property name="layoutDirection">
-           <enum>Qt::RightToLeft</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="locale">
-           <locale language="Persian" country="Iran"/>
-          </property>
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContents</enum>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="cornerButtonEnabled">
-           <bool>true</bool>
-          </property>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>98</number>
-          </attribute>
-          <attribute name="horizontalHeaderHighlightSections">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>false</bool>
-          </attribute>
-          <row>
-           <property name="text">
-            <string>دستگاه تست</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>استاندارد</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>نتیجه</string>
-           </property>
-          </row>
-          <column>
-           <property name="text">
-            <string>متوسط دما 1</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>متوسط دما 2</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>متوسط دما 3</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>متوسط دما 4</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>متوسط دما 5</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>متوسط دما 6</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>min متوسط فشار</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>max متوسط فشار</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>متوسط جریان کل</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>متوسط جریان شروع</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>متوسط ولتاژ</string>
-           </property>
-          </column>
-          <item row="0" column="0">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="flags">
-            <set>ItemIsSelectable|ItemIsEnabled</set>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="2" column="0">
          <widget class="QWidget" name="widget" native="true"/>
         </item>
        </layout>
@@ -995,24 +610,14 @@ border: 1px solid black;</string>
  <tabstops>
   <tabstop>widgetPort</tabstop>
   <tabstop>motorId</tabstop>
-  <tabstop>widgetStandard</tabstop>
-  <tabstop>checkTemp1</tabstop>
-  <tabstop>checkTemp2</tabstop>
-  <tabstop>checkTemp3</tabstop>
-  <tabstop>checkTemp4</tabstop>
-  <tabstop>checkTemp5</tabstop>
-  <tabstop>checkTemp6</tabstop>
-  <tabstop>checkTemp7</tabstop>
-  <tabstop>checkTemp8</tabstop>
-  <tabstop>checkAmpstart</tabstop>
-  <tabstop>checkAmptotal</tabstop>
-  <tabstop>checkVolt</tabstop>
+  <tabstop>widgetModel</tabstop>
+  <tabstop>widgetTestType</tabstop>
   <tabstop>fetchButton</tabstop>
   <tabstop>stopButton</tabstop>
   <tabstop>saveButton</tabstop>
-  <tabstop>printButton</tabstop>
-  <tabstop>Charts_Area</tabstop>
   <tabstop>tabWidget</tabstop>
+  <tabstop>tableAverage</tabstop>
+  <tabstop>Charts_Area</tabstop>
  </tabstops>
  <resources/>
  <connections/>

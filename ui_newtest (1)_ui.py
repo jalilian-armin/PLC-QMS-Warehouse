@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_newtest.ui'
+# Form implementation generated from reading ui file 'c:\Users\armin\Desktop\PLC-QMS-Warehouse\ui_newtest (1).ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #

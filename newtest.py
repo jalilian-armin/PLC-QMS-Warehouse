@@ -155,7 +155,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         self.setup_combo_ports()
 
         # Set up combo box for standards
-        self.setup_combo_standards() 
+        # self.setup_combo_models() 
 
         # Initialize lists for storing data
         self.initialize_data_lists()
@@ -189,15 +189,15 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         self.comboPort.addItems([f"COM{n}" for n in range(1, 10)])
 
 
-    def setup_combo_standards(self):   
-        self.comboStandard = self.findChild(QComboBox, "widgetStandard")
-        items = retrieve_standardss()
-        if items is not None:
-            self.comboStandard.addItems(items)
-        self.comboStandard.setCurrentIndex(-1)
-        ### define what happend after selevting item in dropdown
-        self.comboStandard.currentIndexChanged.connect(self.handle_dropdown_change)
-        self.comboStandard.currentIndexChanged.connect(self.on_text_changed)
+    # def setup_combo_models(self):   
+    #     self.comboStandard = self.findChild(QComboBox, "widgetModel")
+    #     items = retrieve_standardss()
+    #     if items is not None:
+    #         self.comboStandard.addItems(items)
+    #     self.comboStandard.setCurrentIndex(-1)
+    #     ### define what happend after selevting item in dropdown
+    #     self.comboStandard.currentIndexChanged.connect(self.handle_dropdown_change)
+    #     self.comboStandard.currentIndexChanged.connect(self.on_text_changed)
 
 
 
@@ -245,17 +245,6 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         
         
-        self.checkTemp1.setChecked(bool(self.standard_list[21]))
-        self.checkTemp2.setChecked(bool(self.standard_list[22]))
-        self.checkTemp3.setChecked(bool(self.standard_list[23]))
-        self.checkTemp4.setChecked(bool(self.standard_list[24]))
-        self.checkTemp5.setChecked(bool(self.standard_list[25]))
-        self.checkTemp6.setChecked(bool(self.standard_list[26]))
-        self.checkTemp7.setChecked(bool(self.standard_list[27]))
-        self.checkTemp8.setChecked(bool(self.standard_list[28]))
-        self.checkAmpstart.setChecked(bool(self.standard_list[29]))
-        self.checkAmptotal.setChecked(bool(self.standard_list[30]))
-        self.checkVolt.setChecked(bool(self.standard_list[31]))
         print("Selected option:", self.standard_list)
         print(len(self.standard_list))
         self.calculate_tolerance()
@@ -474,29 +463,25 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             if self.stop_flag:
                 break
 
-            if self.checkAmpstart.isChecked():
-                ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
-                self.tableAverage.setItem(0, 9, QTableWidgetItem(f"{ampstart:.2f}A"))
-                self.ampstart_list.append(ampstart)
-                average_ampstart = sum(self.ampstart_list) / len(self.ampstart_list)
-                self.tableAverage.setItem(1, 9, QTableWidgetItem(f"{average_ampstart:.2f}A"))
-                print(f"ampstart at iteration : {ampstart:.2f}A")
-            
-            else:
-                average_ampstart = 0
-            
+            ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
+            self.tableAverage.setItem(0, 9, QTableWidgetItem(f"{ampstart:.2f}A"))
+            self.ampstart_list.append(ampstart)
+            average_ampstart = sum(self.ampstart_list) / len(self.ampstart_list)
+            self.tableAverage.setItem(1, 9, QTableWidgetItem(f"{average_ampstart:.2f}A"))
+            print(f"ampstart at iteration : {ampstart:.2f}A")
+        
 
-            
-            if self.checkVolt.isChecked():
-                volt = instrumentamp.read_float(registeraddress=26, functioncode=3)
-                self.tableAverage.setItem(0, 10, QTableWidgetItem(f"{volt:.2f}V"))
-                self.volt_list.append(volt)
-                average_volt = sum(self.volt_list) / len(self.volt_list)
-                self.tableAverage.setItem(1, 10, QTableWidgetItem(f"{average_volt:.2f}V"))
-                print(f"volt at iteration : {volt:.2f}V")
-            
-            else:
-                average_volt = 0
+
+        
+
+            volt = instrumentamp.read_float(registeraddress=26, functioncode=3)
+            self.tableAverage.setItem(0, 10, QTableWidgetItem(f"{volt:.2f}V"))
+            self.volt_list.append(volt)
+            average_volt = sum(self.volt_list) / len(self.volt_list)
+            self.tableAverage.setItem(1, 10, QTableWidgetItem(f"{average_volt:.2f}V"))
+            print(f"volt at iteration : {volt:.2f}V")
+        
+
                 
 
 
@@ -553,17 +538,6 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         
 
 
-        # self.temperature1_list = []  # Reset the temperature1_list
-        # self.temperature2_list = []  # Reset the temperature1_list
-        # self.temperature3_list = []
-        # self.temperature4_list = []
-        # self.temperature5_list = []
-        # self.temperature6_list = []
-        # self.temperature7_list = []
-        # self.temperature8_list = []
-        # self.pressure_max_list = []
-        # self.pressure_min_list = []
-        # self.amptotal_list = []
 
 
 
@@ -579,111 +553,98 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
             
-            if self.checkTemp1.isChecked():
-                temperature1 = instrument.read_float(registeraddress=30, functioncode=3)
-                self.tableAverage.setItem(0, 0, QTableWidgetItem(f"{temperature1:.2f}°C"))
-                self.temperature1_list.append(temperature1)
-                average_temperature1 = sum(self.temperature1_list) / len(self.temperature1_list)
-                self.tableAverage.setItem(1, 0, QTableWidgetItem(f"{average_temperature1:.2f}°C"))
-                print(f"Temperature1 at iteration : {temperature1:.2f}°C")
-            else:
-                average_temperature1 = 0
-
             
-            if self.checkTemp2.isChecked():
-                temperature2 = instrument.read_float(registeraddress=32, functioncode=3)
-                self.tableAverage.setItem(0, 1, QTableWidgetItem(f"{temperature2:.2f}°C"))
-                self.temperature2_list.append(temperature2)
-                average_temperature2 = sum(self.temperature2_list) / len(self.temperature2_list)
-                self.tableAverage.setItem(1, 1, QTableWidgetItem(f"{average_temperature2:.2f}°C"))
-                print(f"Temperature2 at iteration : {temperature2:.2f}°C")
-            else:
-                average_temperature2 = 0
+            temperature1 = instrument.read_float(registeraddress=30, functioncode=3)
+            self.tableAverage.setItem(0, 0, QTableWidgetItem(f"{temperature1:.2f}°C"))
+            self.temperature1_list.append(temperature1)
+            average_temperature1 = sum(self.temperature1_list) / len(self.temperature1_list)
+            self.tableAverage.setItem(1, 0, QTableWidgetItem(f"{average_temperature1:.2f}°C"))
+            print(f"Temperature1 at iteration : {temperature1:.2f}°C")
 
-            
-            if self.checkTemp3.isChecked():
-                temperature3 = instrument.read_float(registeraddress=34, functioncode=3)
-                self.tableAverage.setItem(0, 2, QTableWidgetItem(f"{temperature3:.2f}°C"))
-                self.temperature3_list.append(temperature3)
-                average_temperature3 = sum(self.temperature3_list) / len(self.temperature3_list)
-                self.tableAverage.setItem(1, 2, QTableWidgetItem(f"{average_temperature3:.2f}°C"))
-                print(f"Temperature3 at iteration : {temperature3:.2f}°C")
-            else:
-                average_temperature3 = 0
+        
 
-            
-            if self.checkTemp4.isChecked():
-                temperature4 = instrument.read_float(registeraddress=36, functioncode=3)
-                self.tableAverage.setItem(0, 3, QTableWidgetItem(f"{temperature4:.2f}°C"))
-                self.temperature4_list.append(temperature4)
-                average_temperature4 = sum(self.temperature4_list) / len(self.temperature4_list)
-                self.tableAverage.setItem(1, 3, QTableWidgetItem(f"{average_temperature4:.2f}°C"))
-                print(f"Temperature4 at iteration : {temperature4:.2f}°C")
-            else:
-                average_temperature4 = 0
+            temperature2 = instrument.read_float(registeraddress=32, functioncode=3)
+            self.tableAverage.setItem(0, 1, QTableWidgetItem(f"{temperature2:.2f}°C"))
+            self.temperature2_list.append(temperature2)
+            average_temperature2 = sum(self.temperature2_list) / len(self.temperature2_list)
+            self.tableAverage.setItem(1, 1, QTableWidgetItem(f"{average_temperature2:.2f}°C"))
+            print(f"Temperature2 at iteration : {temperature2:.2f}°C")
 
-            
-            if self.checkTemp5.isChecked():
-                temperature5 = instrument.read_float(registeraddress=38, functioncode=3)
-                self.tableAverage.setItem(0, 4, QTableWidgetItem(f"{temperature5:.2f}°C"))
-                self.temperature5_list.append(temperature5)
-                average_temperature5 = sum(self.temperature5_list) / len(self.temperature5_list)
-                self.tableAverage.setItem(1, 4, QTableWidgetItem(f"{average_temperature5:.2f}°C"))
-                print(f"Temperature5 at iteration : {temperature5:.2f}°C")
-            else:
-                average_temperature5 = 0
 
-            
-            if self.checkTemp6.isChecked():
-                temperature6 = instrument.read_float(registeraddress=40, functioncode=3)
-                self.tableAverage.setItem(0, 5, QTableWidgetItem(f"{temperature6:.2f}°C"))
-                self.temperature6_list.append(temperature6)
-                average_temperature6 = sum(self.temperature6_list) / len(self.temperature6_list)
-                self.tableAverage.setItem(1, 5, QTableWidgetItem(f"{average_temperature6:.2f}°C"))
-                print(f"Temperature6 at iteration : {temperature6:.2f}°C")
-            else:
-                average_temperature6 = 0
 
-            
-            if self.checkTemp7.isChecked():
-                temperature7 = instrument.read_float(registeraddress=42, functioncode=3)
-                pressure_min = find_pressure_value(temperature7)
-                self.tableAverage.setItem(0, 6, QTableWidgetItem(f"{pressure_min:.2f}PSI"))
-                self.temperature7_list.append(temperature7)
-                self.pressure_min_list.append(pressure_min)
-                average_pressure_min = sum(self.pressure_min_list) / len(self.pressure_min_list)
-                average_temperature7 = sum(self.temperature7_list) / len(self.temperature7_list)
-                self.tableAverage.setItem(1, 6, QTableWidgetItem(f"{average_pressure_min:.2f}PSI"))
-                print(f"Temperature7 at iteration : {temperature7:.2f}PSI")
-            else:
-                average_temperature7 = 0
-                average_pressure_min = 0
+            temperature3 = instrument.read_float(registeraddress=34, functioncode=3)
+            self.tableAverage.setItem(0, 2, QTableWidgetItem(f"{temperature3:.2f}°C"))
+            self.temperature3_list.append(temperature3)
+            average_temperature3 = sum(self.temperature3_list) / len(self.temperature3_list)
+            self.tableAverage.setItem(1, 2, QTableWidgetItem(f"{average_temperature3:.2f}°C"))
+            print(f"Temperature3 at iteration : {temperature3:.2f}°C")
 
-            
-            if self.checkTemp8.isChecked():
-                temperature8 = instrument.read_float(registeraddress=44, functioncode=3)
-                pressure_max = find_pressure_value(temperature8)
-                self.tableAverage.setItem(0, 7, QTableWidgetItem(f"{pressure_max:.2f}PSI"))
-                self.temperature8_list.append(temperature8)
-                self.pressure_max_list.append(pressure_max)
-                average_pressure_max = sum(self.pressure_max_list) / len(self.pressure_max_list)
-                average_temperature8 = sum(self.temperature8_list) / len(self.temperature8_list)
-                self.tableAverage.setItem(1, 7, QTableWidgetItem(f"{average_pressure_max:.2f}PSI"))
-                print(f"Temperature8 at iteration : {temperature8:.2f}PSI")
-            else:
-                average_temperature8 = 0
-                average_pressure_max = 0
-            
 
-            if self.checkAmptotal.isChecked():
-                amptotal = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
-                self.tableAverage.setItem(0, 8, QTableWidgetItem(f"{amptotal:.2f}A"))
-                self.amptotal_list.append(amptotal)
-                average_amptotal = sum(self.amptotal_list) / len(self.amptotal_list)
-                self.tableAverage.setItem(1, 8, QTableWidgetItem(f"{average_amptotal:.2f}A"))
-                print(f"amptotal at iteration : {amptotal:.2f}A")
-            else:
-                average_amptotal = 0
+        
+
+            temperature4 = instrument.read_float(registeraddress=36, functioncode=3)
+            self.tableAverage.setItem(0, 3, QTableWidgetItem(f"{temperature4:.2f}°C"))
+            self.temperature4_list.append(temperature4)
+            average_temperature4 = sum(self.temperature4_list) / len(self.temperature4_list)
+            self.tableAverage.setItem(1, 3, QTableWidgetItem(f"{average_temperature4:.2f}°C"))
+            print(f"Temperature4 at iteration : {temperature4:.2f}°C")
+
+
+        
+
+            temperature5 = instrument.read_float(registeraddress=38, functioncode=3)
+            self.tableAverage.setItem(0, 4, QTableWidgetItem(f"{temperature5:.2f}°C"))
+            self.temperature5_list.append(temperature5)
+            average_temperature5 = sum(self.temperature5_list) / len(self.temperature5_list)
+            self.tableAverage.setItem(1, 4, QTableWidgetItem(f"{average_temperature5:.2f}°C"))
+            print(f"Temperature5 at iteration : {temperature5:.2f}°C")
+
+
+        
+
+            temperature6 = instrument.read_float(registeraddress=40, functioncode=3)
+            self.tableAverage.setItem(0, 5, QTableWidgetItem(f"{temperature6:.2f}°C"))
+            self.temperature6_list.append(temperature6)
+            average_temperature6 = sum(self.temperature6_list) / len(self.temperature6_list)
+            self.tableAverage.setItem(1, 5, QTableWidgetItem(f"{average_temperature6:.2f}°C"))
+            print(f"Temperature6 at iteration : {temperature6:.2f}°C")
+
+
+        
+
+            temperature7 = instrument.read_float(registeraddress=42, functioncode=3)
+            pressure_min = find_pressure_value(temperature7)
+            self.tableAverage.setItem(0, 6, QTableWidgetItem(f"{pressure_min:.2f}PSI"))
+            self.temperature7_list.append(temperature7)
+            self.pressure_min_list.append(pressure_min)
+            average_pressure_min = sum(self.pressure_min_list) / len(self.pressure_min_list)
+            average_temperature7 = sum(self.temperature7_list) / len(self.temperature7_list)
+            self.tableAverage.setItem(1, 6, QTableWidgetItem(f"{average_pressure_min:.2f}PSI"))
+            print(f"Temperature7 at iteration : {temperature7:.2f}PSI")
+
+
+        
+
+            temperature8 = instrument.read_float(registeraddress=44, functioncode=3)
+            pressure_max = find_pressure_value(temperature8)
+            self.tableAverage.setItem(0, 7, QTableWidgetItem(f"{pressure_max:.2f}PSI"))
+            self.temperature8_list.append(temperature8)
+            self.pressure_max_list.append(pressure_max)
+            average_pressure_max = sum(self.pressure_max_list) / len(self.pressure_max_list)
+            average_temperature8 = sum(self.temperature8_list) / len(self.temperature8_list)
+            self.tableAverage.setItem(1, 7, QTableWidgetItem(f"{average_pressure_max:.2f}PSI"))
+            print(f"Temperature8 at iteration : {temperature8:.2f}PSI")
+
+        
+
+
+            amptotal = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
+            self.tableAverage.setItem(0, 8, QTableWidgetItem(f"{amptotal:.2f}A"))
+            self.amptotal_list.append(amptotal)
+            average_amptotal = sum(self.amptotal_list) / len(self.amptotal_list)
+            self.tableAverage.setItem(1, 8, QTableWidgetItem(f"{average_amptotal:.2f}A"))
+            print(f"amptotal at iteration : {amptotal:.2f}A")
+
 
 
 
@@ -719,16 +680,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
 
-        # print(f"Average Temperature1: {average_temperature1:.2f}°C")
-        # print(f"Average Temperature2: {average_temperature2:.2f}°C")
-        # print(f"Average Temperature3: {average_temperature3:.2f}°C")
-        # print(f"Average Temperature4: {average_temperature4:.2f}°C")
-        # print(f"Average Temperature5: {average_temperature5:.2f}°C")
-        # print(f"Average Temperature6: {average_temperature6:.2f}°C")
-        # print(f"Average Temperature7: {average_temperature7:.2f}°C")
-        # print(f"Average Temperature8: {average_temperature8:.2f}°C")
-        # print(f"Average pressure max: {average_pressure_max:.2f}psi")
-        # print(f"Average pressure min: {average_pressure_min:.2f}psi")
+
 
 
         

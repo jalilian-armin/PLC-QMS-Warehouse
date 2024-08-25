@@ -216,6 +216,7 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
     def initialize_data_lists(self):
         self.amptotal_list = []
+        self.ampstart_list = []
         self.volt_list = []
         self.temperature1_list = []
         self.temperature2_list = []
@@ -489,17 +490,17 @@ class NewStandardPage(QMainWindow, Ui_NewStandardPage):
 
         
 
-        self.temperature1_list = []  # Reset the temperature1_list
-        self.temperature2_list = []  # Reset the temperature1_list
-        self.temperature3_list = []
-        self.temperature4_list = []
-        self.temperature5_list = []
-        self.temperature6_list = []
-        self.temperature7_list = []
-        self.temperature8_list = []
-        self.pressure_max_list = []
-        self.pressure_min_list = []
-        self.amptotal_list = []
+        # self.temperature1_list = []  # Reset the temperature1_list
+        # self.temperature2_list = []  # Reset the temperature1_list
+        # self.temperature3_list = []
+        # self.temperature4_list = []
+        # self.temperature5_list = []
+        # self.temperature6_list = []
+        # self.temperature7_list = []
+        # self.temperature8_list = []
+        # self.pressure_max_list = []
+        # self.pressure_min_list = []
+        # self.amptotal_list = []
 
 
 

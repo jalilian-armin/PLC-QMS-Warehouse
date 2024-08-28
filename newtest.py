@@ -345,6 +345,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         self.initialize_data_lists()
         self.value_list = []
+        self.compare_list = []
 
         if self.fetch_thread is None or not self.fetch_thread.is_alive():
             self.stop_flag = False
@@ -394,7 +395,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             instrument = minimalmodbus.Instrument(port_input, slaveaddress=3)
 
             # Optionally, configure the serial communication parameters if needed
-            instrument.serial.baudrate = 38400
+            instrument.serial.baudrate = 9600
             instrument.serial.bytesize = 8
             instrument.serial.parity = minimalmodbus.serial.PARITY_NONE
             instrument.serial.stopbits = 1
@@ -482,8 +483,8 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
                    
         def find_pressure_value(temppressure):
-            x = [-25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
-            y = [47.7, 57.91, 69.62, 83.06, 98.38, 115.8, 135.3, 157.3, 181.9, 209.3, 239.6, 273.2, 310.1, 350.8, 395.4, 444.2, 497.7, 556.2, 620.2]
+            x = [-25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75]
+            y = [47.7, 57.91, 69.62, 83.06, 98.38, 115.8, 135.3, 157.3, 181.9, 209.3, 239.6, 273.2, 310.1, 350.8, 395.4, 444.2, 497.7, 556.2, 620.2, 684.2, 748.2 ]
         
             # بررسی وجود عدد در ستون x
             if temppressure in x:
@@ -518,10 +519,9 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         
 
 
-
-
-
         end_time = time.perf_counter() + durationtemp_input
+
+        selected_testType =self.combotestType.currentText()
 
         # for i in range(tempiterations):
         while time.perf_counter() <= end_time:
@@ -625,7 +625,15 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             self.tableAverage.setItem(1, 8, QTableWidgetItem(f"{average_amptotal:.2f}A"))
             print(f"amptotal at iteration : {amptotal:.2f}A")
 
-            ampstart = instrumentamp.read_float(registeraddress=32, functioncode=3) * 5
+
+            volt = instrumentamp.read_float(registeraddress=26, functioncode=3)
+            self.tableAverage.setItem(0, 10, QTableWidgetItem(f"{volt:.2f}V"))
+            self.volt_list.append(volt)
+            average_volt = sum(self.volt_list) / len(self.volt_list)
+            self.tableAverage.setItem(1, 10, QTableWidgetItem(f"{average_volt:.2f}V"))
+            print(f"volt at iteration : {volt:.2f}V")
+
+            ampstart = amptotal * volt
             self.tableAverage.setItem(0, 9, QTableWidgetItem(f"{ampstart:.2f}W"))
             self.ampstart_list.append(ampstart)
             average_ampstart = sum(self.ampstart_list) / len(self.ampstart_list)
@@ -636,17 +644,20 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         
 
-            volt = instrumentamp.read_float(registeraddress=26, functioncode=3)
-            self.tableAverage.setItem(0, 10, QTableWidgetItem(f"{volt:.2f}V"))
-            self.volt_list.append(volt)
-            average_volt = sum(self.volt_list) / len(self.volt_list)
-            self.tableAverage.setItem(1, 10, QTableWidgetItem(f"{average_volt:.2f}V"))
-            print(f"volt at iteration : {volt:.2f}V")
+
 
 
             self.tableAverage.viewport().update()
             
             self.update_plots()
+
+            # if selected_testType == "Cooling":
+            #     if temperature4 <= 16 or temperature3 <= 16:
+            #         break
+            # else:
+            #     if temperature4 >= 30 or temperature3 >= 30:
+            #         break
+                   
 
             # Wait for the specified interval before the next data fetch
             while time.perf_counter() < next_time:
@@ -684,6 +695,11 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         
 
 
+
+            self.compare_list.append(amptotal)
+            self.compare_list.append(temperature2)
+            self.compare_list.append(temperature3)
+            self.compare_list.append(temperature4)
             self.value_list.append(average_temperature1)
             self.value_list.append(average_temperature2)
             self.value_list.append(average_temperature3)
@@ -724,7 +740,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
             # Prepare the data as a list of tuples
             self.data = [
-                    (test_jdate_str, motorid, self.comboModel.currentText(), self.result, durationtemp_input, intervaltemp_input, self.gasType.text(), average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
+                    (test_jdate_str, motorid, self.comboModel.currentText(), self.result, durationtemp_input, intervaltemp_input, self.gasType.text(),self.combotestType.currentText(),temperature1,temperature2,temperature3,temperature4,temperature5,temperature6,pressure_min,pressure_max,amptotal,volt,ampstart, average_temperature1, average_temperature2, average_temperature3, average_temperature4, average_temperature5,
                     average_temperature6, average_pressure_min, average_pressure_max, average_amptotal, average_ampstart, average_volt, average_temperature7, average_temperature8)
                     #for i in range(len(average_temperature1))
                 ]
@@ -772,7 +788,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             (self.figure6, self.canvas6, self.temperature6_list, "Temp 6"),
             (self.figure7, self.canvas7, self.pressure_min_list, "PSI Min"),
             (self.figure8, self.canvas8, self.pressure_max_list, "PSI Max"),
-            (self.figure9, self.canvas9, self.ampstart_list, "Amp Start"),
+            (self.figure9, self.canvas9, self.ampstart_list, "Watt"),
             (self.figure10, self.canvas10, self.volt_list, "Voltage"),
             (self.figure11, self.canvas11, self.amptotal_list, "Amp Total")
         ]
@@ -825,10 +841,10 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
         model_params = {
-            "12K": (5.7,6.3,4.75, 5.25),
-            "18K": (7.6,8.4,7.125, 7.875),
-            "24K": (8.265,9.135,7.125, 7.875),
-            "30K": (11.875,13.125,10.925,12.075),
+            "12K": (5.4, 6.6, 4.5, 5.5),
+            "18K": (7.2, 8.8, 6.75, 8.25),
+            "24K": (7.83 ,9.57, 6.75, 8.25),
+            "30K": (11.25, 13.75, 10.35, 12.65),
             "18Kinv": (1.3,9.1,1.1,7),
             "24Kinv" : (1,12,1,11)
         }
@@ -836,7 +852,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
         
 
         if selected_testType == "Cooling":
-            if 0.95 * model_params[selected_model][1] <= self.value_list[9] <= 1.05 * model_params[selected_model][2] :
+            if model_params[selected_model][0] <= self.compare_list[0] <= model_params[selected_model][1] :
                 self.tableAverage.setItem(2, 8, QTableWidgetItem("پاس"))
                 self.tableAverage.item(2, 8).setBackground(QColor(0, 255, 0))
                 Ampertest=1
@@ -851,7 +867,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
             for i in range(2,4):
 
 
-                if self.value_list[i] <= 16 :
+                if self.compare_list[i] <= 16 :
                     self.tableAverage.setItem(2, i, QTableWidgetItem("پاس"))
                     self.tableAverage.item(2, i).setBackground(QColor(0, 255, 0))
                     temptest=1
@@ -863,7 +879,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
         else:
 
-            if 0.95 * model_params[selected_model][3] <= self.value_list[9] <= 1.05 * model_params[selected_model][4] :
+            if model_params[selected_model][2] <= self.compare_list[0] <= model_params[selected_model][3] :
                 self.tableAverage.setItem(2, 8, QTableWidgetItem("پاس"))
                 self.tableAverage.item(2, 8).setBackground(QColor(0, 255, 0))
         
@@ -875,7 +891,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
             for i in range(2,4):
-                if 30 <= self.value_list[i]  :
+                if 30 <= self.compare_list[i]  :
                     self.tableAverage.setItem(2, i, QTableWidgetItem("پاس"))
                     self.tableAverage.item(2, i).setBackground(QColor(0, 255, 0))
             
@@ -998,7 +1014,7 @@ class NewTestPage(QMainWindow, Ui_NewTestPage):
 
 
         # Define the SQL query to insert data into the table
-        insert_query = "INSERT INTO test (test_jdate, serial, model_name, qc_result, temp_duration, temp_interval, gas, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageamptotal, averageampstart, averagevolt, averagetemperature7, averagetemperature8) VALUES (%s, %s, %s,  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        insert_query = "INSERT INTO test (test_jdate, serial, model_name, qc_result, temp_duration, temp_interval, gas, test_type, temp1, temp2, temp3, temp4, temp5, temp6, psi_in, psi_out, amp, volt, watt, averagetemperature1, averagetemperature2, averagetemperature3, averagetemperature4, averagetemperature5, averagetemperature6, averagepressure_min, averagepressure_max, averageamptotal, averageampstart, averagevolt, averagetemperature7, averagetemperature8) VALUES (%s, %s, %s,  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
 
 

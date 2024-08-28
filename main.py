@@ -238,8 +238,7 @@ class MainApp(QMainWindow):
         if Auth().has_permission('ایجاد بسته'):
             
             self.ui.Stacked_Pages.setCurrentWidget(self.assembly)
-            self.ui.menuTitle.setText(" ایجاد بسته ")
-        
+            self.ui.menuTitle.setText(" ایجاد بسته ")       
 
 
 

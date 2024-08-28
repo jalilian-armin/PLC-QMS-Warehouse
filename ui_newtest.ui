@@ -339,7 +339,7 @@ border: 1px solid black;
        </font>
       </property>
       <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
+       <enum>Qt::LeftToRight</enum>
       </property>
       <property name="locale">
        <locale language="Persian" country="Iran"/>
@@ -373,7 +373,7 @@ border: 1px solid black;
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1362</width>
+             <width>1000</width>
              <height>2000</height>
             </rect>
            </property>
